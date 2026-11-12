@@ -1,4 +1,4 @@
-// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.0 (src/outcomes.js) by tools/vendor.mjs. Change the package, then re-vendor.
+// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.1 (src/outcomes.js) by tools/vendor.mjs. Change the package, then re-vendor.
 // @kmin/prospect-intelligence — outcomes
 //
 // What happened AFTER a read, and what may honestly be said about it. Pure: no

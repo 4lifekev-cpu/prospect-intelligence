@@ -1,4 +1,4 @@
-/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.13.0 (src/evaluate.js + src/engine.js sha256:75253e0ee9e3).
+/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.13.1 (src/evaluate.js + src/engine.js sha256:5dfaba440c95).
  * The source of truth is src/{evaluate,engine}.js in the Prospect Intelligence
  * repository. Consumers vendor this file with tools/vendor.mjs and check it in;
  * their build fails when it drifts from the package. Edit the source, rebuild,
@@ -1427,8 +1427,9 @@
       var q = new URLSearchParams(location.search);
       // A brand may name its own link parameter (TENANT.piRepParam, 1.13.0);
       // the two original names keep working everywhere.
+      CFG.rep = q.get("u") || q.get("rep") || null;
       var rp = root.TENANT && root.TENANT.piRepParam;
-      CFG.rep = (typeof rp === "string" && /^[a-z]{1,12}$/.test(rp) && q.get(rp)) || q.get("u") || q.get("rep") || null;
+      if (typeof rp === "string" && /^[a-z]{1,12}$/.test(rp) && q.get(rp)) CFG.rep = q.get(rp);
       if (q.has("preview")) CFG.preview = true;   // the affiliate's own walkthrough — observe, never record
       if (q.get("u")) S.name = null; // u is the rep, not the prospect
       hydrateIdentity();               // ...but who the PROSPECT said they are does survive

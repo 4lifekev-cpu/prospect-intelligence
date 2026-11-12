@@ -1,4 +1,4 @@
-// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.0 (src/tenancy.js) by tools/vendor.mjs. Change the package, then re-vendor.
+// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.1 (src/tenancy.js) by tools/vendor.mjs. Change the package, then re-vendor.
 /* ============================================================================
  *  PROSPECT INTELLIGENCE™  —  tenancy: who a customer is, what a brand may look
  *  like, who may do what, and which configuration is live

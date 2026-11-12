@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.13.1 — 2026-11-12
+
+- The line that reads the member's handle from the address is back in its
+  original form, with the brand's own parameter applied after it. A consumer's
+  test pins that line. No behaviour change from 1.13.0.
+
 ## 1.13.0 — 2026-11-12
 
 **A third brand by configuration, and the integration contract (Prompts 11 and 12). Every existing read is unchanged: all golden sets reproduce exactly.**

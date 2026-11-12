@@ -1,4 +1,4 @@
-// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.0 (src/profile-shape.js) by tools/vendor.mjs. Change the package, then re-vendor.
+// GENERATED — do not edit. Vendored from @kmin/prospect-intelligence 1.13.1 (src/profile-shape.js) by tools/vendor.mjs. Change the package, then re-vendor.
 // @kmin/prospect-intelligence — profile-shape
 //
 // The server-side half of the contract. The engine (engine.js) produces a
