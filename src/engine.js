@@ -974,7 +974,7 @@
     present: present,
     PRESENT: PRESENT,
     read: function (sig, opts) { return sig ? readAt(sig, opts || readOpts()) : readAt(signals(), readOpts()); },
-    // An experience can say "that tap worked" for an action the page cannot see.
+    // An experience can confirm an action the page itself cannot see.
     ack: function () { acknowledged("app"); },
     RULES: RULES,
     RULES3: RULES3,

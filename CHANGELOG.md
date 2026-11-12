@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.11.1 — 2026-11-11
+
+- A code comment in the collector quoted a phrase that a consumer's
+  visible-copy check read as new wording. Reworded; no code change.
+
 ## 1.11.0 — 2026-11-11
 
 **The engine has its own repository. No behaviour change.**

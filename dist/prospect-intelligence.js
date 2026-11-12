@@ -1,4 +1,4 @@
-/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.11.0 (src/evaluate.js + src/engine.js sha256:af166e7e79ad).
+/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.11.1 (src/evaluate.js + src/engine.js sha256:fda25135958f).
  * The source of truth is src/{evaluate,engine}.js in the Prospect Intelligence
  * repository. Consumers vendor this file with tools/vendor.mjs and check it in;
  * their build fails when it drifts from the package. Edit the source, rebuild,
@@ -1704,7 +1704,7 @@
     present: present,
     PRESENT: PRESENT,
     read: function (sig, opts) { return sig ? readAt(sig, opts || readOpts()) : readAt(signals(), readOpts()); },
-    // An experience can say "that tap worked" for an action the page cannot see.
+    // An experience can confirm an action the page itself cannot see.
     ack: function () { acknowledged("app"); },
     RULES: RULES,
     RULES3: RULES3,
