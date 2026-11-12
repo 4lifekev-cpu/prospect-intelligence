@@ -12,7 +12,7 @@ var TENANT = { piNotify: "/.netlify/functions/prospect-alert", storagePrefix: "v
 
 test("the public API is exactly what the README promises", function () {
   var PI = load().PI;
-  assert.deepEqual(Object.keys(PI).sort(), ["PRESENT", "RULES", "RULES3", "ack", "analyze", "config", "finish", "notify", "present", "profile", "read", "reset", "signals", "track", "version"]);
+  assert.deepEqual(Object.keys(PI).sort(), ["PRESENT", "RULES", "RULES3", "ack", "analyze", "config", "finish", "hold", "nextQuestion", "notify", "offer", "present", "profile", "read", "release", "reset", "signals", "track", "version"]);
   assert.equal(PI.version, 2);
 });
 

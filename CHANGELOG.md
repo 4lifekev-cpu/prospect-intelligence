@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.12.0 — 2026-11-11
+
+**Careful intercepts and better questions (Prompt 08). Every existing read is unchanged: all golden sets reproduce exactly.**
+
+- **Offered is not shown.** The experience reports each offer's life with
+  `PI.track("offer", { kind, stage })`, stage `shown | dismissed | accepted |
+  requested | fulfilled`. The two-per-visit limit, never-twice and the 90-second
+  spacing count SHOWN offers only. A snapshot carries `offers` (per kind:
+  times offered, shown, outcome, requested channel, fulfilled) when there are any.
+- **One delivery.** `PI.config({ intercept })` or the `pi:intercept` event,
+  never both; a second `shown` is ignored.
+- **Natural moments.** Delivered at a scene boundary or the finish; never
+  mid-scene, with a form field focused, during `PI.hold(reason)`, over another
+  offer, in preview, or without analytics permission. `PI.release(reason)`
+  lets a waiting offer through.
+- **Information is not contact.** Kinds `help`, `walkthrough`, `pricing`,
+  `send_media`, `share_link` open content and never become a request under any
+  rule version (accepted is recorded as `info`, not `yes`). Kind `contact` is a
+  request only at stage `requested`, after a yes, with a channel the prospect
+  can be reached on; it alerts once. `PI.offer(kind, { scene, about })` lets the
+  experience propose one, under the same limits.
+- **Dismissal scores nothing.** A share or a send counts at `fulfilled`, not at yes.
+- **Short experiences** (under 6 scenes) are not interrupted; one optional
+  question at the end is allowed.
+- **Limits survive a reload** (same browser, same day).
+- **Registered experiment required.** `PI.config({ intercepts: true,
+  experiment: { id, holdoutPct } })` or `TENANT.piIntercepts` +
+  `TENANT.piExperiment`. The holdout arm is offered nothing; `ctx.x` carries the
+  arm, computed exactly as `outcomes.arm()` does.
+- **Questions.** `answer` now accepts `direction` (products, business, both,
+  exploring), `timing` (now, month, later, looking) and `help` (product_info,
+  business_info, cost, conversation, nothing), each with skipped / declined.
+  `PI.nextQuestion()` names the one question still worth asking. A stated
+  direction sets the lean only when no path was chosen.
+- **Evaluator, new inputs only.** `later` is reported as answered and unscored
+  (2.1.0: `why: "answered_unscored"`; 3.0.0: measured self-report, no score)
+  instead of "not asked". Rules 3.0.0 accept a request of kind `intercept`
+  with its channel.
+- `PI.track("intercept", { kind, answer })` from an older experience behaves as before.
+
 ## 1.11.1 — 2026-11-11
 
 - `tools/compare.mjs`: runs the golden journeys through two or more consumers'

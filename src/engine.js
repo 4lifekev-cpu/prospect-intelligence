@@ -74,7 +74,7 @@
       lean: "", ctaActions: [], finished: false, returning: false, smsConsent: false, answers: {},
       fg: {}, revisits: {}, session: "s_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
       // ── behaviour signals (2.1.0) ──
-      enc: {}, struggle: {}, hovered: [], intercepts: [], offered: {}, lastOfferAt: 0, hiddenAt: 0,
+      enc: {}, struggle: {}, hovered: [], intercepts: [], offered: {}, offers: {}, lastOfferAt: 0, hiddenAt: 0,
       // ── rules 3.0.0 ──
       requests: [], bookingConfirmed: false, checkoutStarted: false, answerStates: {}, qCount: 0,
       // ── instrumentation (Prompt 03) ──
@@ -343,37 +343,197 @@
      A behaviour says something happened. Only the prospect can say what it
      meant. So at a few moments the engine tells the experience it MAY offer
      something, and the experience decides whether and how to ask. The engine
-     names no venture and writes no words: it dispatches an event with a kind
-     and a scene, and records the answer the experience reports back.
+     names no venture and writes no words.
 
-       kinds    help         — they struggled on a scene
-                walkthrough  — they went back to the same scene twice
-                send_media   — they replayed a video
-                share_link   — they finished
-       listen   document "pi:intercept"  (event.detail = { kind, scene, topic })
-                or PI.config({ intercept: function (offer) { … } })
-       answer   PI.track("intercept", { kind, answer: "yes" | "no" | "dismissed" })
+     Rewritten at 1.12.0. What changed, and why:
 
-     Off unless the experience asks for it (PI.config({ intercepts: true })),
-     never in preview, never before RULES.intercept.notBeforeScene, at most
-     maxPerSession, never the same kind twice, and a cooldown between offers.
-     A YES to help / walkthrough / pricing is a request for contact and scores
-     as one — the only behaviour-led signal that does, because the prospect
-     said it in their own tap.                                               */
-  function considerIntercept(trigger, scene) {
-    if (!CFG.intercepts || CFG.preview) return;
-    var R = RULES.intercept, kind = { struggle: "help", revisit: "walkthrough", replay: "send_media", finished: "share_link" }[trigger];
-    if (!kind || S.offered[kind]) return;
-    if (Object.keys(S.offered).length >= R.maxPerSession) return;
-    if (trigger !== "finished" && !(scene >= R.notBeforeScene)) return;
-    var now = Date.now(); if (S.lastOfferAt && now - S.lastOfferAt < R.cooldownMs) return;
-    S.offered[kind] = true; S.lastOfferAt = now;
-    var topics = (CFG.scenes && CFG.scenes.topics) || [], offer = { kind: kind, scene: scene, topic: topics[scene] || null };
-    try { if (typeof CFG.intercept === "function") CFG.intercept(offer); } catch (e) {}
+     · AN ELIGIBILITY DECISION IS NOT AN IMPRESSION. The engine proposes; the
+       experience reports what actually happened with
+           PI.track("offer", { kind, stage })
+       stage = "shown" | "dismissed" | "accepted" | "requested" | "fulfilled".
+       The two-per-visit limit, the never-twice rule and the 90-second spacing
+       count SHOWN offers only. An offer nobody rendered costs nothing.
+     · ONE OFFER, ONE DELIVERY. With PI.config({ intercept: fn }) the function
+       is called; otherwise document gets "pi:intercept". Never both, and a
+       second "shown" for the same offer is ignored.
+     · NATURAL MOMENTS ONLY. An offer is delivered at a scene boundary or at the
+       finish, never mid-scene, never while a form field has focus, never while
+       the experience holds it (PI.hold("narration") … PI.release("narration")),
+       never while another offer is up, never in preview, and never without
+       analytics permission.
+     · AN INFORMATION OFFER IS NOT A CONTACT REQUEST.
+           help, walkthrough, pricing, send_media, share_link   information
+           question                                             one closed question
+           contact                                              asks for a person
+       Accepting an information offer opens content. It never becomes a
+       request, under any rule version. Only kind "contact" at stage
+       "requested", WITH a channel the prospect can actually be reached on,
+       is a request — and it alerts the affiliate exactly once.
+     · DISMISSING COSTS NOTHING. It is recorded, and scores nothing.
+     · SHORT EXPERIENCES ARE NOT INTERRUPTED. Under SHORT_SCENES scenes the only
+       offer is one optional question at the end.
+     · LIMITS SURVIVE A RELOAD (same browser, same day).
+     · OFF until the experience enables it AND names a registered experiment:
+           PI.config({ intercepts: true, experiment: { id, holdoutPct } })
+       A session in the holdout arm is offered nothing; ctx says which arm.
+
+       triggers  struggle → help · second revisit → walkthrough
+                 replay → send_media · finished → share_link
+       ask       PI.offer(kind, { scene, about })   the experience proposes one
+                 (pricing, contact, question); same limits, same moments
+       question  PI.nextQuestion() → "direction" | "timing" | "help" | null
+                 the ONE question still worth asking; answers the prospect has
+                 already volunteered are never asked again
+
+     PI.track("intercept", { kind, answer }) is still accepted from an older
+     experience and behaves exactly as before.                              */
+  var OFFER_TYPE = { help: "info", walkthrough: "info", pricing: "info", send_media: "info", share_link: "info", question: "question", contact: "contact" };
+  var SHORT_SCENES = 6, OFFER_RENDER_MS = 8000;
+  var holds = {}, pendingOffer = null, liveOffer = null, offerSeq = 0, limitsLoaded = false;
+  function fnv(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = (h * 16777619) >>> 0; } return h; }
+  // The same assignment src/outcomes.js arm() makes, so the server can recompute it.
+  function offerArm() {
+    var x = CFG.experiment;
+    if (!x || !/^[a-z][a-z0-9-]{2,39}$/.test(String(x.id || ""))) return "off";
+    if (!(x.holdoutPct > 0 && x.holdoutPct < 100)) return "exposed";
+    return (fnv(x.id + "|" + S.session) % 1000) < x.holdoutPct * 10 ? "holdout" : "exposed";
+  }
+  function offersOn() { return !!CFG.intercepts && !CFG.preview && offerArm() === "exposed" && consentOk(); }
+  function loadOfferLimits() {
+    if (limitsLoaded) return; limitsLoaded = true;
+    try {
+      var v = JSON.parse(localStorage.getItem(PREFIX + "offers") || "null");
+      if (!v || v.day !== new Date().toISOString().slice(0, 10)) return;
+      (v.kinds || []).forEach(function (k) { if (OFFER_TYPE[k]) S.offered[k] = true; });
+      if (+v.last > S.lastOfferAt) S.lastOfferAt = +v.last;
+    } catch (e) {}
+  }
+  function saveOfferLimits() {
+    if (!consentOk()) return;
+    try { localStorage.setItem(PREFIX + "offers", JSON.stringify({ day: new Date().toISOString().slice(0, 10), kinds: Object.keys(S.offered), last: S.lastOfferAt })); } catch (e) {}
+  }
+  function sceneCount() {
+    var M = CFG.scenesV3, sf = surfaceNow();
+    if (M && M.surfaces && sf && M.surfaces[sf] && M.surfaces[sf].sceneIds) return M.surfaces[sf].sceneIds.length;
+    return S.totalDepth || 0;
+  }
+  function offerAllowed(kind, scene, atEnd) {
+    if (!OFFER_TYPE[kind] || !offersOn()) return false;
+    loadOfferLimits();
+    var R = RULES.intercept;
+    if (S.offered[kind] || Object.keys(S.offered).length >= R.maxPerSession) return false;
+    var n = sceneCount();
+    if (n > 0 && n < SHORT_SCENES && !(kind === "question" && atEnd)) return false;
+    if (!atEnd && !(scene >= R.notBeforeScene)) return false;
+    if (S.lastOfferAt && Date.now() - S.lastOfferAt < R.cooldownMs) return false;
+    return true;
+  }
+  function formFocused() {
+    try {
+      var a = root.document && root.document.activeElement, t = a && String(a.tagName || "").toUpperCase();
+      return !!a && (t === "INPUT" || t === "TEXTAREA" || t === "SELECT" || a.isContentEditable === true);
+    } catch (e) { return false; }
+  }
+  function offerSuppressed() {
+    if (liveOffer && Date.now() - liveOffer.at > OFFER_RENDER_MS && !liveOffer.shown) liveOffer = null;   // nobody rendered it
+    if (liveOffer) return true;
+    for (var k in holds) if (holds[k]) return true;
+    return formFocused();
+  }
+  function deliverOffer(o) {
+    var rec = S.offers[o.kind] || (S.offers[o.kind] = { n: 0 });
+    rec.n = Math.min(9, rec.n + 1);
+    liveOffer = { kind: o.kind, at: Date.now(), shown: false };
+    var topics = (CFG.scenes && CFG.scenes.topics) || [];
+    var offer = { id: "o" + (++offerSeq) + "-" + o.kind, kind: o.kind, type: OFFER_TYPE[o.kind], scene: o.scene, topic: topics[o.scene] || null };
+    if (o.about) offer.about = o.about;
+    if (o.kind === "question") offer.question = nextQuestion();
+    if (typeof CFG.intercept === "function") { try { CFG.intercept(offer); } catch (e) {} return true; }
     try {
       var D = root.document, Ev = root.CustomEvent;
       if (D && D.dispatchEvent && typeof Ev === "function") D.dispatchEvent(new Ev("pi:intercept", { detail: offer }));
     } catch (e) {}
+    return true;
+  }
+  // boundary: true = this IS a natural moment (a scene just changed, the end,
+  // or the experience chose it); false = wait for the next one.
+  function proposeOffer(kind, scene, about, boundary, atEnd) {
+    if (!offerAllowed(kind, scene, atEnd)) return false;
+    if (kind === "question" && !nextQuestion()) return false;
+    var o = { kind: kind, scene: scene, about: /^[a-z_]{1,24}$/.test(String(about || "")) ? String(about) : null, atEnd: !!atEnd };
+    if (!boundary || offerSuppressed()) { pendingOffer = o; return false; }
+    pendingOffer = null;
+    return deliverOffer(o);
+  }
+  function flushOffer() {
+    var o = pendingOffer; if (!o) return;
+    if (!offerAllowed(o.kind, o.scene, o.atEnd)) { if (S.offered[o.kind] || !offersOn()) pendingOffer = null; return; }
+    if (offerSuppressed()) return;
+    pendingOffer = null; deliverOffer(o);
+  }
+  function considerIntercept(trigger, scene) {
+    var kind = { struggle: "help", revisit: "walkthrough", replay: "send_media", finished: "share_link" }[trigger];
+    if (!kind) return;
+    proposeOffer(kind, scene, null, trigger === "revisit" || trigger === "finished", trigger === "finished");
+  }
+  function reachable(channel) {
+    if (channel === "email") return !!S.email;
+    if (channel === "text" || channel === "call" || channel === "whatsapp") return !!S.phone;
+    return channel === "calendar";
+  }
+  function offerStage(data) {
+    var kind = String(data.kind || "").toLowerCase(), stage = String(data.stage || "").toLowerCase(), rec = S.offers[kind];
+    if (!OFFER_TYPE[kind] || !rec) return;            // only an offer the engine delivered has stages
+    if (stage === "shown") {
+      if (rec.shown) return;                           // the event and the callback both wired: still one offer
+      rec.shown = true; S.offered[kind] = true; S.lastOfferAt = Date.now(); saveOfferLimits();
+      if (liveOffer && liveOffer.kind === kind) liveOffer.shown = true;
+      return;
+    }
+    if (!rec.shown) return;                            // nothing happens to an offer nobody saw
+    if (stage === "dismissed" || stage === "accepted") {
+      if (rec.out) return;
+      rec.out = stage;
+      if (liveOffer && liveOffer.kind === kind) liveOffer = null;
+      // "info", never "yes": under every rule version only a yes can be read as a request.
+      if (S.intercepts.length < 4 && kind !== "question") S.intercepts.push({ kind: kind, answer: stage === "dismissed" ? "dismissed" : "info" });
+      return;
+    }
+    if (stage === "requested") {
+      var ch = String(data.channel || "").toLowerCase();
+      if (OFFER_TYPE[kind] !== "contact" || rec.out !== "accepted" || rec.req || !has(RULES3.channels, ch) || !reachable(ch)) return;
+      rec.req = ch;
+      if (S.requests.length < 4) S.requests.push({ kind: "intercept", channel: ch });
+      if (S.intercepts.length < 4) S.intercepts.push({ kind: "contact", answer: "yes" });
+      notify("hot_lead");                              // one alert: the held contact alert, released once
+      return;
+    }
+    if (stage === "fulfilled") {
+      if (rec.ful || (OFFER_TYPE[kind] === "contact" ? !rec.req : rec.out !== "accepted")) return;
+      rec.ful = true;
+      if (kind === "share_link") encourage("share");   // a share that actually happened, not a tap on "yes"
+      if (kind === "send_media") encourage("save");
+    }
+  }
+  function compactOffers() {
+    var out = [];
+    Object.keys(S.offers).slice(0, 7).forEach(function (k) {
+      var r = S.offers[k], o = { kind: k, n: r.n };
+      if (r.shown) o.shown = true; if (r.out) o.out = r.out; if (r.req) o.req = r.req; if (r.ful) o.ful = true;
+      out.push(o);
+    });
+    return out;
+  }
+  // The one question still worth asking, or null. A path chosen on a welcome
+  // screen already says which direction; an answer given or declined is final.
+  var QUESTIONS = { direction: ["products", "business", "both", "exploring"], timing: ["now", "month", "later", "looking"],
+    help: ["product_info", "business_info", "cost", "conversation", "nothing"], experience: ["yes", "no"] };
+  function answered(k) { return !!(S.answers[k] || S.answerStates[k]); }
+  function nextQuestion() {
+    if (!answered("direction") && !S.lean && !S.path) return "direction";
+    if (!answered("timing")) return "timing";
+    if (!answered("help")) return "help";
+    return null;
   }
 
   /* ── FOREGROUND TIME PER SCENE ────────────────────────────────────────────
@@ -412,6 +572,7 @@
     cur.index = index; cur.since = pageVisible() && !pageGone ? Date.now() : 0;
     acknowledged("scene");
     if ((S.revisits[index] || 0) >= RULES.intercept.revisits) considerIntercept("revisit", index);
+    flushOffer();                                      // a scene boundary: an offer that was waiting may be made now
   }
   try {
     if (root.document && root.document.addEventListener) root.document.addEventListener("visibilitychange", function () {
@@ -453,6 +614,8 @@
     rules: "2.1.0", channels: null,
     // intercepts are off until the experience can render one (see considerIntercept)
     intercepts: false, intercept: null,
+    // …and until a registered experiment is named: { id, holdoutPct }. No experiment, no offers.
+    experiment: null,
     // analytics permission is REQUIRED by default (Prompt 05, D3): with no
     // consent hook on the page, nothing is identified, stored, sent or alerted.
     // A venture that genuinely needs no permission sets TENANT.piConsentRequired = false.
@@ -466,6 +629,8 @@
       if (typeof T.piNotify === "string" && T.piNotify) CFG.notify = T.piNotify;
       if (T.piConsentRequired === false) CFG.consentRequired = false;
       if (typeof T.piSession === "string" && T.piSession) CFG.session = T.piSession;
+      if (T.piIntercepts === true) CFG.intercepts = true;
+      if (T.piExperiment && typeof T.piExperiment === "object") CFG.experiment = T.piExperiment;
     } catch (e) {}
   })();
   var lastSig = "";
@@ -618,11 +783,17 @@
         // The prospect's own answer to a question the experience asked. A closed
         // vocabulary on purpose: nothing free-form is stored about a person.
         var ak = String(data.key || "").toLowerCase(), av = String(data.value || "").toLowerCase();
-        if ((ak === "timing" || ak === "experience") && (av === "skipped" || av === "declined")) S.answerStates[ak] = av;
-        else if (ak === "timing" && RULES.timing[av]) { S.answers.timing = av; delete S.answerStates.timing; }
-        else if (ak === "experience" && (av === "yes" || av === "no")) { S.answers.experience = av; delete S.answerStates.experience; }
+        if (!QUESTIONS[ak]) break;
+        if (av === "skipped" || av === "declined") { if (!S.answers[ak]) S.answerStates[ak] = av; }
+        else if (QUESTIONS[ak].indexOf(av) >= 0) {
+          // The answer is stored as given. "later" is a real answer the rules do not score yet.
+          S.answers[ak] = av; delete S.answerStates[ak];
+          // Saying which direction is the same declaration a welcome-screen path makes.
+          if (ak === "direction" && !S.path) S.lean = av === "products" ? "customer" : av === "business" ? "builder" : "";
+        }
         break;
       }
+      case "offer": offerStage(data); break;
       case "finished": S.finished = true; considerIntercept("finished", cur.index); break;
       // ── encouragement an experience reports (2.1.0) ──
       // ── explicit requests and confirmations (rules 3.0.0) ──
@@ -673,7 +844,7 @@
     var n = Math.min(Math.max(+S.totalDepth || 0, +S.maxDepth + 1 || 0), MAX_SCENES), sceneSec = [], revisits = {}, i;
     for (i = 0; i < n; i++) sceneSec.push(Math.min(999, Math.round((S.fg[i] || 0) / 1000)));
     Object.keys(S.revisits).forEach(function (k) { if (+k < MAX_SCENES) revisits[k] = Math.min(99, S.revisits[k]); });
-    return { name: S.name, phone: S.phone, email: S.email, contactMethod: S.contactMethod, ctaAction: S.ctaAction, path: S.path, pathLabel: S.pathLabel, maxDepth: S.maxDepth, totalDepth: S.totalDepth,
+    var snap = { name: S.name, phone: S.phone, email: S.email, contactMethod: S.contactMethod, ctaAction: S.ctaAction, path: S.path, pathLabel: S.pathLabel, maxDepth: S.maxDepth, totalDepth: S.totalDepth,
       interactions: S.interactions, questions: S.qCount, reactions: S.reactions.slice(),
       booked: S.booked, droppedEarly: S.droppedEarly, backtracks: S.backtracks, startedAt: S.startedAt, lastEventAt: S.lastEventAt,
       lean: S.lean, ctaActions: S.ctaActions.slice(), finished: S.finished, returning: S.returning, smsConsent: S.smsConsent,
@@ -682,6 +853,10 @@
       enc: Object.assign({}, S.enc), struggle: compactStruggle(), hovered: S.hovered.slice(), intercepts: S.intercepts.slice(),
       requests: S.requests.slice(), bookingConfirmed: S.bookingConfirmed, checkoutStarted: S.checkoutStarted,
       answerStates: Object.assign({}, S.answerStates), ctx: ctx() };
+    var ofs = compactOffers(); if (ofs.length) snap.offers = ofs;
+    if (S.answers.direction) snap.answers.direction = S.answers.direction;
+    if (S.answers.help) snap.answers.help = S.answers.help;
+    return snap;
   }
   /* Where this snapshot came from and what could be measured (Prompt 03).
      Small on purpose: the profile endpoint caps signals at 4 KB.           */
@@ -693,7 +868,7 @@
     var elig = null;
     if (M && M.surfaces && sf && M.surfaces[sf]) elig = M.surfaces[sf].sceneIds.filter(function (id, k) { return M.surfaces[sf].eligible ? M.surfaces[sf].eligible[k] !== false : true; });
     var mo = !!root.MutationObserver;
-    return {
+    var c = {
       v: 1, p: mid[0] || null, cv: mid[1] || null, sf: sf, l: lang, route: CFG.route || "full", e: S.session + "-" + S.seq,
       scope: rooted() ? "root" : "document", seen: seen.slice(0, 40), elig: elig ? elig.slice(0, 40) : null,
       unc: Math.round(S.uncertainMs / 1000), fr: friction().version,
@@ -701,6 +876,8 @@
       avail: { visibility: !!(root.document && "visibilityState" in root.document), ack: mo, media: !!mediaSeen, thirdPartyMedia: thirdParty() },
       tx: { q: S.tx.queued, r: S.tx.refused, f: S.tx.fallback }
     };
+    if (CFG.experiment && CFG.intercepts) c.x = { id: String(CFG.experiment.id || "").slice(0, 40), arm: offerArm() };
+    return c;
   }
   function thirdParty() {
     try { var D = root.document; if (!D || !D.querySelectorAll) return 0; var n = 0; [].forEach.call(D.querySelectorAll("iframe"), function (f) { if (inScope(f) && /youtube|vimeo|wistia|loom/i.test(String(f.src || ""))) n++; }); return n; } catch (e) { return 0; }
@@ -825,7 +1002,7 @@
     if (size() <= SIGNALS_MAX) return sig;
     var c = sig.ctx || {};
     var steps = [function () { c.media = c.media && c.media.slice(0, 2); }, function () { c.seen = null; c.elig = null; },
-      function () { sig.hovered = []; sig.intercepts = []; }, function () { delete sig.ctx; },
+      function () { sig.hovered = []; sig.intercepts = []; delete sig.offers; }, function () { delete sig.ctx; },
       function () { sig.struggle = {}; sig.enc = {}; }, function () { sig.sceneSec = sig.sceneSec.slice(0, 40); sig.revisits = {}; }];
     for (var i = 0; i < steps.length && size() > SIGNALS_MAX; i++) { steps[i](); if (sig.ctx) sig.ctx.trimmed = i + 1; }
     return sig;
@@ -969,13 +1146,23 @@
       if (o && o.identityKeys) hydrateIdentity();
       return CFG;
     },
-    reset: function () { S = fresh(); cur = { index: -1, since: 0 }; taps = []; hoverOn = null; lastSig = ""; sentStrong = false; },
+    reset: function () { S = fresh(); cur = { index: -1, since: 0 }; taps = []; hoverOn = null; lastSig = ""; sentStrong = false; holds = {}; pendingOffer = null; liveOffer = null; limitsLoaded = false; },
     analyze: analyze,
     present: present,
     PRESENT: PRESENT,
     read: function (sig, opts) { return sig ? readAt(sig, opts || readOpts()) : readAt(signals(), readOpts()); },
     // An experience can confirm an action the page itself cannot see.
     ack: function () { acknowledged("app"); },
+    // ── offers (1.12.0) ──
+    // The experience proposes an offer of its own (pricing, contact, question…).
+    // Same limits and moments as the engine's; true = delivered now.
+    offer: function (kind, o) { o = o || {}; var k = String(kind || "").toLowerCase(), end = !!o.atEnd || S.finished;
+      return proposeOffer(k, typeof o.scene === "number" ? o.scene : cur.index, o.about, true, end); },
+    // Hold offers back while something must not be interrupted (narration, a
+    // contact flow, an important control); release makes a waiting one eligible again.
+    hold: function (why) { holds[String(why || "x").slice(0, 24)] = true; },
+    release: function (why) { delete holds[String(why || "x").slice(0, 24)]; flushOffer(); },
+    nextQuestion: nextQuestion,
     RULES: RULES,
     RULES3: RULES3,
     version: 2

@@ -354,6 +354,8 @@
       }
       function urgency() {
         var a = String(answers.timing || "").toLowerCase();
+        // "later" is a real answer the rules do not score: it is reported as given, never as "not asked".
+        if (a === "later") return { measured: false, why: "answered_unscored", value: a };
         if (!RULES.timing[a]) return { measured: false, why: "not_asked" };
         return { measured: true, score: RULES.timing[a], reasons: [{ code: "said_" + a, pts: RULES.timing[a] }] };
       }
@@ -497,6 +499,7 @@
       actions: { business: ["enroll"], product: ["shop"] },
       contactOffers: ["contact"],                                                   // the only intercept kinds whose yes is a request
       answerStates: ["skipped", "declined"],
+      unscoredTiming: ["later"],                                                    // stored and shown as answered; no points until a rule update gives it some
       channels: ["email", "text", "call", "whatsapp", "calendar"]
     };
 
@@ -530,7 +533,7 @@
       });
       var reqs = Array.isArray(sig.requests) ? sig.requests : [], reqSources = [], channels = [];
       reqs.forEach(function (r) {
-        if (!r || !/^(contact_form|callback)$/.test(String(r.kind || ""))) return;
+        if (!r || !/^(contact_form|callback|intercept)$/.test(String(r.kind || ""))) return;
         if (reqSources.indexOf(r.kind) < 0) reqSources.push(r.kind);
         var c = String(r.channel || ""); if (has(R.channels, c) && channels.indexOf(c) < 0) channels.push(c);
       });
@@ -609,7 +612,7 @@
         if (has(R.answerStates, st)) return { state: st };
         if (!v) return { state: "not_asked" };
         if (!scored) return { state: "measured", value: v, kind: "self_report" };
-        if (!R.timing[v]) return { state: "not_asked" };
+        if (!R.timing[v]) return has(R.unscoredTiming, v) ? { state: "measured", value: v, kind: "self_report" } : { state: "not_asked" };
         return { state: "measured", value: v, score: R.timing[v], reasons: [{ code: "said_" + v, pts: R.timing[v] }], kind: "self_report" };
       }
       var dims = {

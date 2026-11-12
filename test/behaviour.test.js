@@ -131,28 +131,194 @@ test("intercepts are off unless the experience asks for them", function () {
   assert.equal(b.p.dispatched.length, 0);
 });
 
+// Every offer test names a registered experiment; holdoutPct 0 = everyone is offered.
+var EXP = { id: "offer-test", holdoutPct: 0 };
+// An experience that renders what it is offered and says so.
+function renders(b, offers) { return function (o) { offers.push(o); b.PI.track("offer", { kind: o.kind, stage: "shown" }); }; }
+
 test("a second revisit offers a walkthrough, once, with the scene's topic", function () {
   var b = boot(), offers = [];
-  b.PI.config({ intercepts: true, intercept: function (o) { offers.push(o); }, scenes: { topics: (function () { var t = []; t[9] = "business"; return t; })() } });
-  [8, 9, 8, 9, 8, 9, 8, 9].forEach(function (i) { b.PI.track("scene", { index: i, total: 23 }); b.c.tick(100 * 1000); });
-  assert.deepEqual(plain(offers), [{ kind: "walkthrough", scene: 8, topic: null }]);
-  assert.equal(b.p.dispatched[0].type, "pi:intercept");
+  b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, offers), scenes: { topics: (function () { var t = []; t[9] = "business"; return t; })() } });
+  [8, 9, 8, 9, 8, 9, 8, 9].forEach(function (i) { b.PI.track("scene", { index: i, total: 23 }); b.c.tick(100 * 1000); b.PI.track("offer", { kind: "walkthrough", stage: "dismissed" }); });
+  assert.deepEqual(plain(offers), [{ id: "o1-walkthrough", kind: "walkthrough", type: "info", scene: 8, topic: null }]);
+  assert.equal(b.p.dispatched.length, 0, "the callback and the event both delivered the same offer");
 });
 
 test("no intercept in the first scenes, none in preview, two at most, with a cooldown", function () {
-  var early = boot(), o1 = []; early.PI.config({ intercepts: true, intercept: function (o) { o1.push(o); } });
+  var early = boot(), o1 = []; early.PI.config({ intercepts: true, experiment: EXP, intercept: renders(early, o1) });
   [0, 1, 0, 1, 0].forEach(function (i) { early.PI.track("scene", { index: i, total: 23 }); });
   assert.equal(o1.length, 0, "scene 0 is too early to interrupt anyone");
-  var pv = boot({ preview: true }), o2 = []; pv.PI.config({ intercepts: true, intercept: function (o) { o2.push(o); } });
+  var pv = boot({ preview: true }), o2 = []; pv.PI.config({ intercepts: true, experiment: EXP, intercept: renders(pv, o2) });
   pv.PI.finish(); assert.equal(o2.length, 0);
-  var b = boot(), o3 = [], body = b.p.el("DIV"); b.PI.config({ intercepts: true, intercept: function (o) { o3.push(o); } });
+  var b = boot(), o3 = [], body = b.p.el("DIV"); b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o3) });
   b.PI.track("scene", { index: 6, total: 23 });
   for (var i = 0; i < 4; i++) { b.p.fire("click", { target: body, clientX: 5, clientY: 5 }); b.c.tick(100); }
-  b.PI.track("scene", { index: 7, total: 23 }); b.PI.track("scene", { index: 6, total: 23 }); b.PI.track("scene", { index: 7, total: 23 }); b.PI.track("scene", { index: 6, total: 23 });
+  assert.equal(o3.length, 0, "an offer interrupted the middle of a scene");
+  b.PI.track("scene", { index: 7, total: 23 });                       // the next scene boundary: now the help offer may be made
+  b.PI.track("offer", { kind: "help", stage: "dismissed" });
+  b.PI.track("scene", { index: 6, total: 23 }); b.PI.track("scene", { index: 7, total: 23 }); b.PI.track("scene", { index: 6, total: 23 });
   assert.deepEqual(plain(o3.map(function (o) { return o.kind; })), ["help"], "the walkthrough came inside the cooldown");
-  b.c.tick(120 * 1000); b.PI.finish();
+  b.c.tick(120 * 1000); b.PI.finish(); b.PI.track("offer", { kind: "share_link", stage: "dismissed" });
   b.c.tick(120 * 1000); b.PI.track("scene", { index: 7, total: 23 }); b.PI.track("scene", { index: 6, total: 23 });
   assert.deepEqual(plain(o3.map(function (o) { return o.kind; })), ["help", "share_link"], "never more than two");
+});
+
+// ── 1.12.0: display, response and fulfilment are separate facts ──
+test("no experiment, or the holdout arm: nothing is offered, and the snapshot says which arm", function () {
+  var none = boot(), o = []; none.PI.config({ intercepts: true, intercept: renders(none, o) });
+  none.PI.finish(); assert.equal(o.length, 0, "offers ran without a registered experiment");
+  var held = boot(), h = []; held.PI.config({ intercepts: true, experiment: { id: "offer-test", holdoutPct: 99.9 }, intercept: renders(held, h) });
+  held.PI.track("scene", { index: 5, total: 23 }); held.PI.finish();
+  assert.equal(h.length, 0); assert.deepEqual(plain(held.PI.signals().ctx.x), { id: "offer-test", arm: "holdout" });
+  // The server recomputes the same arm from the session and the experiment.
+  var O = require("../src/outcomes.js"), b = boot(); b.PI.config({ intercepts: true, experiment: { id: "offer-test", holdoutPct: 50 } });
+  var sig = b.PI.signals(); assert.equal(sig.ctx.x.arm, O.arm({ id: "offer-test", holdoutPct: 50 }, sig.session));
+});
+
+test("an eligibility decision with nothing rendered consumes no quota", function () {
+  var b = boot(), seen = [];
+  b.PI.config({ intercepts: true, experiment: EXP, intercept: function (o) { seen.push(o.kind); } });   // receives the offer, renders nothing
+  b.PI.track("scene", { index: 5, total: 23 });
+  [6, 5, 6, 5].forEach(function (i) { b.PI.track("scene", { index: i, total: 23 }); });
+  assert.deepEqual(seen, ["walkthrough"]);
+  b.c.tick(9000);                                                                                      // nobody rendered it
+  b.PI.track("scene", { index: 6, total: 23 }); b.PI.track("scene", { index: 5, total: 23 });
+  assert.deepEqual(seen, ["walkthrough", "walkthrough"], "an unrendered offer used up the kind");
+  var sig = plain(b.PI.signals());
+  assert.deepEqual(sig.offers, [{ kind: "walkthrough", n: 2 }], "offered twice, shown never");
+  b.PI.track("offer", { kind: "walkthrough", stage: "shown" }); b.PI.track("offer", { kind: "walkthrough", stage: "shown" });
+  assert.deepEqual(plain(b.PI.signals().offers), [{ kind: "walkthrough", n: 2, shown: true }], "a second shown for the same offer counted twice");
+});
+
+test("without a callback the offer goes to the document, once", function () {
+  var b = boot(); b.PI.config({ intercepts: true, experiment: EXP });
+  b.PI.track("scene", { index: 5, total: 23 }); b.PI.finish();
+  assert.equal(b.p.dispatched.length, 1); assert.equal(b.p.dispatched[0].type, "pi:intercept"); assert.equal(b.p.dispatched[0].detail.kind, "share_link");
+});
+
+test("offers wait for a natural moment: not during a hold, a focused form field, or another offer", function () {
+  var b = boot(), o = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o) });
+  b.PI.track("scene", { index: 5, total: 23 });
+  b.PI.hold("narration");
+  [6, 5, 6, 5].forEach(function (i) { b.PI.track("scene", { index: i, total: 23 }); });
+  assert.equal(o.length, 0, "an offer interrupted narration");
+  b.PI.release("narration");
+  assert.deepEqual(o.map(function (x) { return x.kind; }), ["walkthrough"], "the waiting offer was lost");
+  var f = boot(), fo = []; f.PI.config({ intercepts: true, experiment: EXP, intercept: renders(f, fo) });
+  f.p.doc.activeElement = { tagName: "INPUT" };
+  f.PI.track("scene", { index: 5, total: 23 }); f.PI.finish();
+  assert.equal(fo.length, 0, "an offer appeared over a form the visitor was typing in");
+  f.p.doc.activeElement = null; f.PI.track("scene", { index: 6, total: 23 });
+  assert.equal(fo.length, 1);
+  assert.equal(f.PI.offer("pricing", { scene: 6 }), false, "a second offer was stacked on one still showing");
+});
+
+test("a short experience is never interrupted; it may ask one question at the end", function () {
+  var b = boot(), o = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o) });
+  [3, 4, 3, 4, 3, 4].forEach(function (i) { b.PI.track("scene", { index: i, total: 5 }); });
+  assert.equal(b.PI.offer("pricing", { scene: 4 }), false); assert.equal(o.length, 0);
+  b.PI.finish();
+  assert.equal(o.length, 0, "a short experience got a share offer");
+  assert.equal(b.PI.offer("question", { atEnd: true }), true);
+  assert.equal(o[0].kind, "question"); assert.equal(o[0].question, "direction");
+});
+
+test("limits survive a reload: the same browser, the same day", function () {
+  var c = clock(), p = page(), store = {};
+  function start() { return load({ query: "?u=dana", store: store, globals: { Date: c.Date, document: p.doc, CustomEvent: p.CustomEvent, setTimeout: p.setTimeout, clearTimeout: p.clearTimeout, WeakMap: WeakMap } }); }
+  var a = start(), o = []; a.PI.config({ intercepts: true, experiment: EXP, intercept: function (x) { o.push(x.kind); a.PI.track("offer", { kind: x.kind, stage: "shown" }); } });
+  a.PI.track("scene", { index: 5, total: 23 }); a.PI.finish();
+  assert.deepEqual(o, ["share_link"]);
+  Object.assign(store, a.store);
+  c.tick(200 * 1000);
+  var b = start(), o2 = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: function (x) { o2.push(x.kind); b.PI.track("offer", { kind: x.kind, stage: "shown" }); } });
+  b.PI.track("scene", { index: 5, total: 23 }); b.PI.finish();
+  assert.deepEqual(o2, [], "the reload offered the same thing again");
+  assert.equal(b.PI.offer("pricing", { scene: 5 }), true, "one offer was left for this visit");
+  assert.equal(b.PI.offer("help", { scene: 5 }), false);
+});
+
+test("an information offer never becomes a contact request, under either rule version", function () {
+  var b = boot(), o = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o) });
+  for (var i = 0; i < 12; i++) { b.PI.track("scene", { index: i, total: 23 }); b.c.tick(30000); }
+  assert.equal(b.PI.offer("help", { scene: 11 }), true);
+  var before = plain(b.PI.read()), before3 = plain(b.PI.read(b.PI.signals(), { rules: "3.0.0" }));
+  b.PI.track("offer", { kind: "help", stage: "accepted" });
+  b.PI.track("offer", { kind: "help", stage: "requested", channel: "text" });      // not a contact offer: ignored
+  b.PI.track("offer", { kind: "help", stage: "fulfilled" });
+  var sig = plain(b.PI.signals()), after = plain(b.PI.read()), after3 = plain(b.PI.read(b.PI.signals(), { rules: "3.0.0" }));
+  assert.deepEqual(sig.offers, [{ kind: "help", n: 1, shown: true, out: "accepted", ful: true }]);
+  assert.deepEqual(sig.requests, []); assert.deepEqual(sig.intercepts, [{ kind: "help", answer: "info" }]);
+  assert.deepEqual(after.dims.intent, before.dims.intent, "opening a simpler explanation raised intent under 2.1.0");
+  assert.equal(after3.request.state, before3.request.state); assert.equal(after3.request.permitsContact, false);
+  assert.equal(b.e.beacons.filter(function (x) { return /prospect-alert/.test(x.url); }).length, 0, "self-service help alerted the affiliate");
+});
+
+test("dismissing an offer is recorded and costs nothing", function () {
+  var b = boot(), o = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o) });
+  for (var i = 0; i < 12; i++) { b.PI.track("scene", { index: i, total: 23 }); b.c.tick(30000); }
+  var before = plain(b.PI.read()), before3 = plain(b.PI.read(b.PI.signals(), { rules: "3.0.0" }));
+  b.PI.offer("pricing", { scene: 11 }); b.PI.track("offer", { kind: "pricing", stage: "dismissed" });
+  b.PI.track("offer", { kind: "pricing", stage: "accepted" });                     // too late: it was dismissed
+  var after = plain(b.PI.read()), after3 = plain(b.PI.read(b.PI.signals(), { rules: "3.0.0" }));
+  assert.deepEqual(after.dims, before.dims); assert.equal(after.band, before.band);
+  assert.deepEqual(after3.dims, before3.dims); assert.equal(after3.temperature.band, before3.temperature.band);
+  assert.deepEqual(plain(b.PI.signals().offers), [{ kind: "pricing", n: 1, shown: true, out: "dismissed" }]);
+});
+
+test("a contact offer is a request only after yes AND a channel the prospect can be reached on; it alerts once", function () {
+  var b = boot(), o = []; b.e.win.TENANT = null;
+  b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o), notify: "/.netlify/functions/prospect-alert" });
+  for (var i = 0; i < 12; i++) { b.PI.track("scene", { index: i, total: 23 }); b.c.tick(30000); }
+  assert.equal(b.PI.offer("contact", { scene: 11, about: "pricing" }), true); assert.equal(o[0].about, "pricing"); assert.equal(o[0].type, "contact");
+  b.PI.track("offer", { kind: "contact", stage: "requested", channel: "text" });   // before a yes: nothing
+  assert.deepEqual(plain(b.PI.signals().requests), []);
+  b.PI.track("offer", { kind: "contact", stage: "accepted" });
+  assert.equal(plain(b.PI.read(b.PI.signals(), { rules: "3.0.0" })).request.permitsContact, false, "a yes alone was treated as a request");
+  b.PI.track("offer", { kind: "contact", stage: "requested", channel: "text" });   // no phone number given: not usable
+  b.PI.track("offer", { kind: "contact", stage: "requested", channel: "carrier-pigeon" });
+  assert.deepEqual(plain(b.PI.signals().requests), []);
+  b.PI.track("contact", { name: "Sam", phone: "801-555-0100" });
+  b.PI.track("offer", { kind: "contact", stage: "requested", channel: "text" });
+  b.PI.track("offer", { kind: "contact", stage: "requested", channel: "call" });   // the same request again: one request
+  var sig = plain(b.PI.signals()), r3 = plain(b.PI.read(sig, { rules: "3.0.0" }));
+  assert.deepEqual(sig.requests, [{ kind: "intercept", channel: "text" }]);
+  assert.equal(r3.request.state, "requested"); assert.deepEqual(r3.request.sources, ["intercept"]); assert.deepEqual(r3.request.channels, ["text"]);
+  assert.deepEqual(sig.offers, [{ kind: "contact", n: 1, shown: true, out: "accepted", req: "text" }]);
+  b.PI.finish();
+  var alerts = b.e.beacons.filter(function (x) { return /prospect-alert/.test(x.url); });
+  assert.equal(alerts.length, 1, "expected exactly one alert, got " + alerts.length);
+  assert.equal(JSON.parse(alerts[0].body).handle, "dana");
+});
+
+test("a share is counted when it happens, not when someone taps yes", function () {
+  var b = boot(), o = []; b.PI.config({ intercepts: true, experiment: EXP, intercept: renders(b, o) });
+  b.PI.track("scene", { index: 5, total: 23 }); b.PI.finish();
+  b.PI.track("offer", { kind: "share_link", stage: "accepted" });
+  assert.equal(b.PI.signals().enc.share, undefined, "accepting was counted as sharing");
+  b.PI.track("offer", { kind: "share_link", stage: "fulfilled" });
+  assert.equal(b.PI.signals().enc.share, 1);
+});
+
+test("questions: one at a time, the actual answer stored, volunteered answers never asked again", function () {
+  var b = boot();
+  assert.equal(b.PI.nextQuestion(), "direction");
+  b.PI.track("answer", { key: "direction", value: "business" });
+  assert.equal(b.PI.signals().lean, "builder"); assert.equal(b.PI.nextQuestion(), "timing");
+  b.PI.track("answer", { key: "timing", value: "later" });
+  assert.equal(b.PI.signals().answers.timing, "later", "'later' was mapped to a different answer");
+  assert.deepEqual(plain(b.PI.read().dims.urgency), { measured: false, why: "answered_unscored", value: "later" });
+  assert.deepEqual(plain(b.PI.read(b.PI.signals(), { rules: "3.0.0", questions: ["timing"] }).dims.urgency), { state: "measured", value: "later", kind: "self_report" });
+  assert.equal(b.PI.nextQuestion(), "help");
+  b.PI.track("answer", { key: "help", value: "cost" }); b.PI.track("answer", { key: "help", value: "<b>free text</b>" });
+  assert.equal(b.PI.signals().answers.help, "cost"); assert.equal(b.PI.nextQuestion(), null);
+  assert.deepEqual(plain(b.PI.signals().requests), [], "asking for cost details became a contact request");
+  // A path chosen on the welcome screen already answers "direction".
+  var p = boot(); p.PI.track("path", { path: "wealth" });
+  assert.equal(p.PI.nextQuestion(), "timing");
+  p.PI.track("answer", { key: "timing", value: "skipped" }); assert.equal(p.PI.nextQuestion(), "help", "a skipped question was asked again");
+  p.PI.track("answer", { key: "direction", value: "products" });
+  assert.notEqual(p.PI.signals().lean, "customer", "an answer overrode the path the prospect chose");
 });
 
 test("a YES to help is the prospect asking for contact, and scores as that", function () {

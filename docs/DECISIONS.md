@@ -53,3 +53,25 @@ Each entry: date · decision · why · where it is configured · who decided · 
 - **Why:** two copies of the source drift, and then "the same engine" is no longer true.
 - **Configured in:** each brand's `pi.consumer.json` and `pi.lock.json`.
 - **Decided by:** the owner.
+
+## 2026-11-11 · Intercepts: shown is what counts, information is not contact
+- **Decision:** an offer counts against the limits only when it is actually shown. It is
+  delivered once, at a scene boundary or the end, never over a form, narration or another
+  offer. Opening information ("a simpler explanation", "view pricing") never becomes a
+  contact request. Only a yes to a contact offer, with a channel the person can be reached
+  on, is a request, and it alerts once. Dismissing scores nothing. Short experiences are not
+  interrupted. Limits survive a reload. Offers stay off until a brand turns them on and names
+  a registered experiment with a holdout.
+- **Why:** an interruption has a cost to the viewer; and a tap on "help" is not permission to call.
+- **Configured in:** the brand's record (`piIntercepts`, `piExperiment`); the brand writes and
+  approves every word a viewer sees.
+- **Decided by:** the owner's build prompts. **Open:** each brand's approved wording and its
+  first experiment (holdout size, which offers).
+
+## 2026-11-11 · Questions: one at a time, the answer as given
+- **Decision:** at most one optional closed question per visit, chosen by what is still
+  unknown (direction, then timing, then what would help). An answer already volunteered is
+  never asked again. "Later" is stored as "later" and is not scored until a rule update gives
+  it a value. Asking for cost details or a conversation is an answer, not a contact request.
+- **Why:** questions are for the next decision, not for collecting a profile.
+- **Decided by:** the owner's build prompts.
