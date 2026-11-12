@@ -198,6 +198,10 @@ the golden sets). The tool writes `pi.lock.json` beside it:
 
 The vendored file is a *projection* of the package, never a fork of it.
 
+`node tools/compare.mjs --consumer ../site-a --consumer ../site-b` runs the same
+journeys through each consumer's vendored copy: the core must be identical;
+differences caused by each site's own configuration are listed separately.
+
 The read the venture receives, and the row `toProfileRow()` produces from it,
 are described in `schema/profile.json` and `src/profile-shape.js`
 (`ROW_COLUMNS`). A venture's migration for its profiles table should be

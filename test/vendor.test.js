@@ -67,3 +67,21 @@ test("the pin holds no clock and no machine path", function () {
   assert.ok(!/\d{4}-\d{2}-\d{2}T|\/tmp\/|\/home\//.test(lock));
   assert.deepEqual(Object.keys(JSON.parse(lock)), ["package", "version", "source", "sha256", "files"]);
 });
+
+test("compare: two consumers on this release have an identical core; a tampered evaluator is caught", function () {
+  function site(name, paths) {
+    var d = consumer({ "dist/prospect-intelligence.js": ["a/pi.js"], "src/evaluate.js": ["fn/_evaluate.js"], "src/profile-shape.js": ["fn/_shape.js"] });
+    var cfg = JSON.parse(fs.readFileSync(path.join(d, "pi.consumer.json"), "utf8")); cfg.adapter = "adapter.cjs";
+    fs.writeFileSync(path.join(d, "pi.consumer.json"), JSON.stringify(cfg));
+    fs.writeFileSync(path.join(d, "adapter.cjs"), "module.exports={name:" + JSON.stringify(name) + ",evaluator:require('./fn/_evaluate.js'),shape:require('./fn/_shape.js'),rules:'2.1.0',paths:" + JSON.stringify(paths) + "};");
+    assert.equal(run(d).status, 0); return d;
+  }
+  var a = site("one", { wealth: { motivation: "Financial growth", lean: "builder" } }), b = site("two", { health: { motivation: "Purpose & product", lean: "customer" } });
+  var cmp = function () { return cp.spawnSync(process.execPath, [path.join(ROOT, "tools", "compare.mjs"), "--consumer", a, "--consumer", b], { encoding: "utf8" }); };
+  var ok = cmp();
+  assert.equal(ok.status, 0, ok.stderr); assert.match(ok.stdout, /identical result in every consumer/); assert.match(ok.stdout, /Same release and same hashes in every consumer: yes/);
+  var f = path.join(b, "fn/_evaluate.js");
+  fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("function r100(n) { return Math.round(clamp(n, 0, 100)); }", "function r100(n) { return Math.round(clamp(n + 3, 0, 100)); }"));
+  var bad = cmp();
+  assert.notEqual(bad.status, 0, "a forked evaluator passed the comparison"); assert.match(bad.stdout, /differ/);
+});

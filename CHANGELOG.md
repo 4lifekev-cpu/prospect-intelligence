@@ -2,6 +2,10 @@
 
 ## 1.11.1 — 2026-11-11
 
+- `tools/compare.mjs`: runs the golden journeys through two or more consumers'
+  vendored evaluators. Fails if the core differs; lists, without failing, what
+  differs because of each site's own configuration.
+
 - A code comment in the collector quoted a phrase that a consumer's
   visible-copy check read as new wording. Reworded; no code change.
 
