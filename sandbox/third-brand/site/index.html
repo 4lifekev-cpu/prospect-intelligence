@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Meadowlark Tour · preview</title>
+<style>
+  :root{--brand:#2F6B4F;--accent:#C97B3A;--ink:#1D2A24;--paper:#F7F4EC}
+  body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--paper);color:var(--ink)}
+  main{max-width:640px;margin:0 auto;padding:24px 20px 96px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid var(--brand);padding-bottom:12px}
+  h1{font-size:22px;margin:0;color:var(--brand)} h2{font-size:28px;line-height:1.2;margin:28px 0 8px}
+  .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);border-left:3px solid var(--accent);padding-left:8px}
+  button,a.btn{min-height:44px;padding:0 18px;border-radius:10px;border:2px solid var(--brand);background:var(--brand);color:#fff;font:600 15px inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+  button.quiet{background:transparent;color:var(--brand)} button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px} .fine{font-size:13px;opacity:.8;margin-top:28px}
+  #consent{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--paper);padding:16px 20px}
+  #consent .row{margin-top:10px} #consent button{border-color:var(--paper);background:var(--paper);color:var(--ink)} #consent button.quiet{background:transparent;color:var(--paper)}
+  a{color:var(--brand)} #consent a{color:var(--paper)}
+  pre{white-space:pre-wrap;background:rgba(0,0,0,.06);padding:12px;border-radius:8px;font-size:12px}
+</style>
+</head>
+<body>
+<main>
+  <header><h1>Meadowlark Home</h1><span class="tag">Preview · not a live site</span></header>
+  <p class="tag" id="count" aria-live="polite"></p>
+  <h2 id="title" tabindex="-1"></h2>
+  <p id="body"></p>
+  <div class="row"><button type="button" id="next">Next</button><button type="button" class="quiet" data-cta="shop">See the collection</button><button type="button" class="quiet" data-cta="join">Become a stylist</button><button type="button" class="quiet" data-cta="call">Ask for a call</button></div>
+  <p class="fine">Stylist earnings vary and depend on individual effort. No income is promised.</p>
+  <p class="fine"><a href="https://meadowlark-home.example/privacy">Privacy</a> · <a href="https://meadowlark-home.example/terms">Terms</a></p>
+  <h2 style="font-size:18px">What the engine would report</h2>
+  <pre id="read" aria-live="polite">Nothing yet.</pre>
+</main>
+<div id="consent" role="region" aria-label="Your choice"><div>May this page remember how you use it, so your stylist can follow up helpfully? It works either way.</div>
+  <div class="row"><button type="button" id="yes">Allow</button><button type="button" class="quiet" id="no">No thanks</button></div></div>
+<script>
+  // The engine asks this object whether the visitor agreed. Declined means nothing is kept or sent.
+  window.HSConsent = (function () { var s = "unset", w = []; return { state: function () { return s; }, granted: function () { return s === "granted"; },
+    whenGranted: function (f) { if (s === "granted") f(); else w.push(f); }, set: function (v) { s = v; if (v === "granted") w.splice(0).forEach(function (f) { f(); }); } }; })();
+</script>
+<script src="tenant.js"></script>
+<script src="../vendor/prospect-intelligence.js"></script>
+<script>
+(function () {
+  var SCENES = ["welcome","story","collection","hosting","stylists","next"], i = 0;
+  function show() {
+    document.getElementById("count").textContent = "Scene " + (i + 1) + " of " + SCENES.length;
+    document.getElementById("title").textContent = SCENES[i].replace(/^./, function (c) { return c.toUpperCase(); });
+    document.getElementById("body").textContent = "Placeholder content for the " + SCENES[i] + " scene.";
+    if (window.PI) { PI.track("scene", { index: i, total: SCENES.length, sceneId: SCENES[i], surface: "web" }); if (i === SCENES.length - 1) { PI.track("finished"); PI.finish && PI.finish(); } }
+    report();
+  }
+  function report() { try { var r = PI.read(); document.getElementById("read").textContent = "band: " + r.band + "\nevidence: " + r.evidence.strength + " (" + r.evidence.qualified + " of " + r.evidence.total + " scenes)\nrules: " + r.rules.version + "\nintent: " + r.dims.intent.score; } catch (e) {} }
+  document.getElementById("next").addEventListener("click", function () { if (i < SCENES.length - 1) { i++; show(); document.getElementById("title").focus(); } });
+  document.querySelectorAll("[data-cta]").forEach(function (b) { b.addEventListener("click", function () { if (window.PI) PI.track("cta", { action: b.getAttribute("data-cta") }); report(); }); });
+  function choose(v) { HSConsent.set(v); document.getElementById("consent").remove(); show(); }
+  document.getElementById("yes").addEventListener("click", function () { choose("granted"); });
+  document.getElementById("no").addEventListener("click", function () { choose("denied"); });
+  show();
+})();
+</script>
+</body>
+</html>

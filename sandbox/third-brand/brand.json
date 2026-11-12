@@ -1,0 +1,61 @@
+{
+  "$schema": "pi-brand-config@1",
+  "brandId": "meadowlark",
+  "configVersion": "1.0.0",
+  "customerId": "meadowlark-co",
+  "browser": {
+    "display": {
+      "platformName": "Meadowlark Home",
+      "experienceName": "The Meadowlark Tour",
+      "colorBrand": "#2F6B4F",
+      "colorAccent": "#C97B3A"
+    },
+    "terminology": {
+      "customer": {
+        "singular": "host",
+        "plural": "hosts"
+      },
+      "business": {
+        "singular": "stylist",
+        "plural": "stylists"
+      },
+      "prospect": {
+        "singular": "guest",
+        "plural": "guests"
+      }
+    },
+    "domains": [
+      "meadowlark-home.example"
+    ],
+    "presentations": [
+      "meadowlark-tour@1.0.0"
+    ],
+    "locales": [
+      "en"
+    ],
+    "channels": [
+      "email",
+      "call"
+    ],
+    "policies": {
+      "privacy": "2026-11-01",
+      "terms": "2026-11-01",
+      "consentText": "2026-11-01"
+    },
+    "ruleVersion": "2.1.0",
+    "flags": {
+      "prospectIntelligence": true,
+      "consentGate": true,
+      "rules3": false,
+      "intercepts": false
+    }
+  },
+  "server": {
+    "rpcSecretEnv": "MEADOWLARK_RPC_SECRET",
+    "emailProviderEnv": "MEADOWLARK_EMAIL_KEY",
+    "emailFromEnv": "MEADOWLARK_EMAIL_FROM"
+  },
+  "notes": [
+    "A fictional direct-sales home goods brand. It exists only to prove that a third brand runs on the same engine by configuration and an adapter, with no change to the engine."
+  ]
+}

@@ -41,7 +41,7 @@ const outPath = path.join(HERE, "dist", "prospect-intelligence.js");
 // release.json — what a consumer pins. One hash per artifact; two consumers with
 // equal hashes run the same core, whichever repository vendored it.
 const sha256 = (s) => createHash("sha256").update(s).digest("hex");
-export const ARTIFACTS = ["src/evaluate.js", "src/config.js", "src/profile-shape.js", "src/outcomes.js"];
+export const ARTIFACTS = ["src/evaluate.js", "src/config.js", "src/profile-shape.js", "src/outcomes.js", "src/tenancy.js", "src/integrations.js"];
 const hashes = { "dist/prospect-intelligence.js": sha256(output) };
 for (const a of ARTIFACTS) hashes[a] = sha256(fs.readFileSync(path.join(HERE, a), "utf8"));
 export const release = JSON.stringify({ package: pkg.name, version: pkg.version, sha256: hashes }, null, 2) + "\n";

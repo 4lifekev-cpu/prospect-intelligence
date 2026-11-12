@@ -1,0 +1,54 @@
+{
+  "$schema": "pi-brand-appearance@1",
+  "brandId": "meadowlark",
+  "assetOrigins": [
+    "assets.meadowlark-home.example"
+  ],
+  "logo": {
+    "url": "https://assets.meadowlark-home.example/brand/meadowlark-mark.png",
+    "alt": "Meadowlark Home",
+    "width": 160,
+    "height": 40
+  },
+  "colors": {
+    "brand": "#2F6B4F",
+    "accent": "#C97B3A",
+    "ink": "#1D2A24",
+    "paper": "#F7F4EC"
+  },
+  "email": {
+    "fromName": "Meadowlark Home",
+    "footer": "You are receiving this because you are a Meadowlark stylist. Meadowlark Home is a fictional company used for testing.",
+    "fromEnv": "MEADOWLARK_EMAIL_FROM",
+    "senderVerified": false
+  },
+  "links": {
+    "privacy": "https://meadowlark-home.example/privacy",
+    "terms": "https://meadowlark-home.example/terms",
+    "support": "mailto:help@meadowlark-home.example"
+  },
+  "resources": [
+    {
+      "id": "catalogue",
+      "kind": "product_info",
+      "title": "The autumn catalogue",
+      "url": "https://meadowlark-home.example/catalogue"
+    },
+    {
+      "id": "stylist-guide",
+      "kind": "business_info",
+      "title": "How being a stylist works",
+      "url": "https://meadowlark-home.example/stylists"
+    }
+  ],
+  "disclosures": [
+    {
+      "id": "earnings",
+      "text": "Stylist earnings vary and depend on individual effort. No income is promised."
+    }
+  ],
+  "distributor": {
+    "param": "s",
+    "pattern": "handle"
+  }
+}

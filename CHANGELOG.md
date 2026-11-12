@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.13.0 — 2026-11-12
+
+**A third brand by configuration, and the integration contract (Prompts 11 and 12). Every existing read is unchanged: all golden sets reproduce exactly.**
+
+- **`src/tenancy.js`** (vendorable). The appearance contract
+  `pi-brand-appearance@1` and its validator; one permission map for six roles
+  with every capability refused across customers; a customer gate; versioned
+  configuration with publish, roll back and disable that never changes a
+  registry in place; rules for which embedded players can be measured.
+- **`src/integrations.js`** (vendorable). Versioned events limited to listed
+  fields, scoped hashed credentials with rotation, signed deliveries with
+  replay refusal, destination and resolved-address checks, bounded retries,
+  send-time suppression, a per-customer share of each worker run. It opens no
+  connection and nothing calls it.
+- **`tools/admin.mjs`**: validate, publish, preview, health, rollback,
+  disable, enable, over a file registry.
+- **`sandbox/third-brand/`**: a made-up brand that runs on this release with
+  no engine change, with a generated preview page and alert-email preview.
+- **`TENANT.piRepParam`**: a brand may name its own link parameter. The two
+  original names keep working; an unsafe name is ignored.
+- Docs: `docs/WHITE-LABEL.md`, `docs/INTEGRATIONS.md`, `docs/PLATFORM.md`.
+- Not built: a web admin screen, a hosted registry, any live integration.
+
 ## 1.12.1 — 2026-11-11
 
 - Two code comments quoted phrases that a consumer's visible-copy check read

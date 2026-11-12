@@ -1,0 +1,26 @@
+{
+  "package": "@kmin/prospect-intelligence",
+  "version": "1.13.0",
+  "source": {
+    "repository": "prospect-intelligence",
+    "commit": "8c931fe158a7f8efb84abb362396762cff945fd1"
+  },
+  "sha256": {
+    "dist/prospect-intelligence.js": "85c4caf7814984dab8dcd092157af7acee1038262a21e9ae2dbfb1d2ede7c84e",
+    "src/config.js": "4da78896994946db48913a612ec21091959e784e9ef1a6438ebdb5241a975d85",
+    "src/evaluate.js": "9a0eecd416c86a63ae5fcddcb1b71bd9474473b1837450436765a9b82c5b2719",
+    "src/integrations.js": "d3180a4932b31cab3c18482b8b5bddb144b36d1783d2b1f7ec1c57e41b8b3f2a",
+    "src/outcomes.js": "69d49da840f2532ed80cb41bf34b014deb77fc97899f29cd0bf8eafc0c62ba30",
+    "src/profile-shape.js": "8b7dae7615941c21b9066ccfc13f25669e8ba1b2768aea75913f0b5c62ebbe15",
+    "src/tenancy.js": "bbbb6beba9b7d186426d66200e71bc86e070e4dc235dc6ccf5cf0986be9255d7"
+  },
+  "files": {
+    "vendor/prospect-intelligence.js": "85c4caf7814984dab8dcd092157af7acee1038262a21e9ae2dbfb1d2ede7c84e",
+    "vendor/pi-config.js": "8866ec9396e97364a8b1ab507b3c23ac5f25c148f792ff61003e115e097133d3",
+    "vendor/pi-evaluate.js": "4fecaa394dce488d40a5d0c1c2da4c1a5168fc48a9d329d3cc9adb9ae1970c92",
+    "vendor/pi-integrations.js": "1f50d5df6a56e09f3b418cab7dd43e923a507f43dd49021674e55ce321c9a361",
+    "vendor/pi-outcomes.js": "838abf57e7f847c8bc07a90213d176d8137dcc598647801aa932152562e8a9fb",
+    "vendor/pi-shape.js": "2a189fd71b2faf9397ee1b94d8eda3de8a6493cb375d27fc867c2febddbad5d9",
+    "vendor/pi-tenancy.js": "48bd276afdfaa9bebf0943cbce45af767c1d9105bf09b8db1258b6a6ba89ea83"
+  }
+}

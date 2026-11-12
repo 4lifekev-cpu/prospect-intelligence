@@ -692,7 +692,10 @@
   (function () {
     try {
       var q = new URLSearchParams(location.search);
-      CFG.rep = q.get("u") || q.get("rep") || null;
+      // A brand may name its own link parameter (TENANT.piRepParam, 1.13.0);
+      // the two original names keep working everywhere.
+      var rp = root.TENANT && root.TENANT.piRepParam;
+      CFG.rep = (typeof rp === "string" && /^[a-z]{1,12}$/.test(rp) && q.get(rp)) || q.get("u") || q.get("rep") || null;
       if (q.has("preview")) CFG.preview = true;   // the affiliate's own walkthrough — observe, never record
       if (q.get("u")) S.name = null; // u is the rep, not the prospect
       hydrateIdentity();               // ...but who the PROSPECT said they are does survive

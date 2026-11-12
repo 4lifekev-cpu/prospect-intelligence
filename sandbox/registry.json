@@ -1,0 +1,240 @@
+{
+  "schema": "pi-registry@1",
+  "deployments": {
+    "meadowlark": {
+      "customerId": "meadowlark-co",
+      "status": "enabled",
+      "active": "554a1fd2517f9f5f",
+      "history": [
+        {
+          "version": "554a1fd2517f9f5f",
+          "at": "2026-11-12T11:16:38.407Z",
+          "by": "owner",
+          "brand": {
+            "$schema": "pi-brand-config@1",
+            "brandId": "meadowlark",
+            "configVersion": "1.0.0",
+            "customerId": "meadowlark-co",
+            "browser": {
+              "display": {
+                "platformName": "Meadowlark Home",
+                "experienceName": "The Meadowlark Tour",
+                "colorBrand": "#2F6B4F",
+                "colorAccent": "#C97B3A"
+              },
+              "terminology": {
+                "customer": {
+                  "singular": "host",
+                  "plural": "hosts"
+                },
+                "business": {
+                  "singular": "stylist",
+                  "plural": "stylists"
+                },
+                "prospect": {
+                  "singular": "guest",
+                  "plural": "guests"
+                }
+              },
+              "domains": [
+                "meadowlark-home.example"
+              ],
+              "presentations": [
+                "meadowlark-tour@1.0.0"
+              ],
+              "locales": [
+                "en"
+              ],
+              "channels": [
+                "email",
+                "call"
+              ],
+              "policies": {
+                "privacy": "2026-11-01",
+                "terms": "2026-11-01",
+                "consentText": "2026-11-01"
+              },
+              "ruleVersion": "2.1.0",
+              "flags": {
+                "prospectIntelligence": true,
+                "consentGate": true,
+                "rules3": false,
+                "intercepts": false
+              }
+            },
+            "server": {
+              "rpcSecretEnv": "MEADOWLARK_RPC_SECRET",
+              "emailProviderEnv": "MEADOWLARK_EMAIL_KEY",
+              "emailFromEnv": "MEADOWLARK_EMAIL_FROM"
+            },
+            "notes": [
+              "A fictional direct-sales home goods brand. It exists only to prove that a third brand runs on the same engine by configuration and an adapter, with no change to the engine."
+            ]
+          },
+          "appearance": {
+            "$schema": "pi-brand-appearance@1",
+            "brandId": "meadowlark",
+            "assetOrigins": [
+              "assets.meadowlark-home.example"
+            ],
+            "logo": {
+              "url": "https://assets.meadowlark-home.example/brand/meadowlark-mark.png",
+              "alt": "Meadowlark Home",
+              "width": 160,
+              "height": 40
+            },
+            "colors": {
+              "brand": "#2F6B4F",
+              "accent": "#C97B3A",
+              "ink": "#1D2A24",
+              "paper": "#F7F4EC"
+            },
+            "email": {
+              "fromName": "Meadowlark Home",
+              "footer": "You are receiving this because you are a Meadowlark stylist. Meadowlark Home is a fictional company used for testing.",
+              "fromEnv": "MEADOWLARK_EMAIL_FROM",
+              "senderVerified": false
+            },
+            "links": {
+              "privacy": "https://meadowlark-home.example/privacy",
+              "terms": "https://meadowlark-home.example/terms",
+              "support": "mailto:help@meadowlark-home.example"
+            },
+            "resources": [
+              {
+                "id": "catalogue",
+                "kind": "product_info",
+                "title": "The autumn catalogue",
+                "url": "https://meadowlark-home.example/catalogue"
+              },
+              {
+                "id": "stylist-guide",
+                "kind": "business_info",
+                "title": "How being a stylist works",
+                "url": "https://meadowlark-home.example/stylists"
+              }
+            ],
+            "disclosures": [
+              {
+                "id": "earnings",
+                "text": "Stylist earnings vary and depend on individual effort. No income is promised."
+              }
+            ],
+            "distributor": {
+              "param": "s",
+              "pattern": "handle"
+            }
+          },
+          "manifests": [
+            {
+              "$schema": "pi-presentation-manifest@1",
+              "presentationId": "meadowlark-tour",
+              "contentVersion": "1.0.0",
+              "locales": [
+                "en"
+              ],
+              "scenes": [
+                {
+                  "id": "welcome",
+                  "topic": null,
+                  "narrationSec": {
+                    "en": 8
+                  },
+                  "eligible": true
+                },
+                {
+                  "id": "story",
+                  "topic": null,
+                  "narrationSec": {
+                    "en": 20
+                  },
+                  "eligible": true
+                },
+                {
+                  "id": "collection",
+                  "topic": "product",
+                  "narrationSec": {
+                    "en": 26
+                  },
+                  "eligible": true
+                },
+                {
+                  "id": "hosting",
+                  "topic": "product",
+                  "narrationSec": {
+                    "en": 18
+                  },
+                  "eligible": true
+                },
+                {
+                  "id": "stylists",
+                  "topic": "business",
+                  "narrationSec": {
+                    "en": 24
+                  },
+                  "eligible": true
+                },
+                {
+                  "id": "next",
+                  "topic": null,
+                  "narrationSec": {
+                    "en": 10
+                  },
+                  "eligible": true
+                }
+              ],
+              "surfaces": {
+                "web": {
+                  "legacyOrder": [
+                    "welcome",
+                    "story",
+                    "collection",
+                    "hosting",
+                    "stylists",
+                    "next"
+                  ],
+                  "note": "One responsive page; scenes are numbered from the welcome."
+                }
+              },
+              "routes": {
+                "shop": [
+                  "welcome",
+                  "story",
+                  "collection",
+                  "hosting",
+                  "next"
+                ],
+                "join": [
+                  "welcome",
+                  "story",
+                  "stylists",
+                  "next"
+                ]
+              },
+              "ctas": {
+                "shop": "product_next_step",
+                "join": "business_next_step",
+                "call": "contact_request",
+                "email": "contact_request",
+                "share": "share"
+              },
+              "questions": [
+                {
+                  "id": "timing",
+                  "sceneId": "next",
+                  "answers": [
+                    "now",
+                    "month",
+                    "later",
+                    "looking"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "previous": null
+    }
+  }
+}

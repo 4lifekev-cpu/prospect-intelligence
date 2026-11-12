@@ -44,7 +44,7 @@ const rel = JSON.parse(release);
 const onDisk = fs.existsSync(path.join(HERE, "release.json")) ? fs.readFileSync(path.join(HERE, "release.json"), "utf8") : null;
 if (onDisk !== release) fail("this checkout's release.json is stale — run `npm run build` here first");
 
-const ALLOWED = /^(dist\/prospect-intelligence\.js|src\/(evaluate|config|profile-shape|outcomes)\.js|test\/golden[a-z0-9-]*\.json|schema\/[a-z0-9.-]+\.json|signals\.json)$/;
+const ALLOWED = /^(dist\/prospect-intelligence\.js|src\/(evaluate|config|profile-shape|outcomes|tenancy|integrations)\.js|test\/golden[a-z0-9-]*\.json|schema\/[a-z0-9.-]+\.json|signals\.json)$/;
 function artifact(name) {
   if (!ALLOWED.test(name)) fail("pi.consumer.json: \"" + name + "\" is not something a consumer may vendor");
   if (name === "dist/prospect-intelligence.js") return { raw: bundle, out: bundle };

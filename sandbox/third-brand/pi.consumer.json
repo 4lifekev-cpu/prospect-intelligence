@@ -1,0 +1,26 @@
+{
+  "adapter": "scripts/pi-adapter.cjs",
+  "targets": {
+    "dist/prospect-intelligence.js": [
+      "vendor/prospect-intelligence.js"
+    ],
+    "src/evaluate.js": [
+      "vendor/pi-evaluate.js"
+    ],
+    "src/profile-shape.js": [
+      "vendor/pi-shape.js"
+    ],
+    "src/outcomes.js": [
+      "vendor/pi-outcomes.js"
+    ],
+    "src/config.js": [
+      "vendor/pi-config.js"
+    ],
+    "src/tenancy.js": [
+      "vendor/pi-tenancy.js"
+    ],
+    "src/integrations.js": [
+      "vendor/pi-integrations.js"
+    ]
+  }
+}

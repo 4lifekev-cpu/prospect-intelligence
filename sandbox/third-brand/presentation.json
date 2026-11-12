@@ -1,0 +1,105 @@
+{
+  "$schema": "pi-presentation-manifest@1",
+  "presentationId": "meadowlark-tour",
+  "contentVersion": "1.0.0",
+  "locales": [
+    "en"
+  ],
+  "scenes": [
+    {
+      "id": "welcome",
+      "topic": null,
+      "narrationSec": {
+        "en": 8
+      },
+      "eligible": true
+    },
+    {
+      "id": "story",
+      "topic": null,
+      "narrationSec": {
+        "en": 20
+      },
+      "eligible": true
+    },
+    {
+      "id": "collection",
+      "topic": "product",
+      "narrationSec": {
+        "en": 26
+      },
+      "eligible": true
+    },
+    {
+      "id": "hosting",
+      "topic": "product",
+      "narrationSec": {
+        "en": 18
+      },
+      "eligible": true
+    },
+    {
+      "id": "stylists",
+      "topic": "business",
+      "narrationSec": {
+        "en": 24
+      },
+      "eligible": true
+    },
+    {
+      "id": "next",
+      "topic": null,
+      "narrationSec": {
+        "en": 10
+      },
+      "eligible": true
+    }
+  ],
+  "surfaces": {
+    "web": {
+      "legacyOrder": [
+        "welcome",
+        "story",
+        "collection",
+        "hosting",
+        "stylists",
+        "next"
+      ],
+      "note": "One responsive page; scenes are numbered from the welcome."
+    }
+  },
+  "routes": {
+    "shop": [
+      "welcome",
+      "story",
+      "collection",
+      "hosting",
+      "next"
+    ],
+    "join": [
+      "welcome",
+      "story",
+      "stylists",
+      "next"
+    ]
+  },
+  "ctas": {
+    "shop": "product_next_step",
+    "join": "business_next_step",
+    "call": "contact_request",
+    "email": "contact_request",
+    "share": "share"
+  },
+  "questions": [
+    {
+      "id": "timing",
+      "sceneId": "next",
+      "answers": [
+        "now",
+        "month",
+        "later",
+        "looking"
+      ]
+    }
+  ]
+}

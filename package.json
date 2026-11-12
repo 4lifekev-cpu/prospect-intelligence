@@ -1,6 +1,6 @@
 {
   "name": "@kmin/prospect-intelligence",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "description": "Prospect Intelligence — the behavioural read engine shared by KMIN ventures. One browser file that turns interaction signals into a structured prospect profile, plus the server-side row shape. Names no venture.",
   "license": "UNLICENSED",
   "private": true,
