@@ -1,0 +1,60 @@
+{
+  "//": "The signal dictionary for evidence rules 3.0.0. Every code the 3.0.0 read can emit is here, with what it is, what else it could mean, and the only wording a consumer may use for it. test/rules-v3.test.js fails if the read emits a code that is missing. Display wording is English reference copy; a venture's locale catalogue renders it.",
+  "version": "3.0.0",
+  "categories": {
+    "observation": "Something the engine or the presentation recorded happening.",
+    "self_report": "Something the prospect chose or answered.",
+    "request": "An explicit request for a human response.",
+    "hypothesis": "A rule-based interpretation that has not been tested against outcomes.",
+    "verified_outcome": "Confirmed by an authorized server-side source. The browser can never set one."
+  },
+  "signals": {
+    "views": { "event": "scene + foreground clock", "source": "engine", "detector": "scene on screen while the page is visible, at least half its narration and never under 4 s", "category": "observation", "alternatives": ["attention", "left running unattended in the foreground", "reading slowly"], "display": "Viewed {qualified} of {eligible} scenes", "score": "intent: 30 × share of eligible scenes viewed", "validation": "unvalidated" },
+    "finished": { "event": "finished / PI.finish()", "source": "presentation", "detector": "the presentation reached its closing scene", "category": "observation", "alternatives": ["watched to the end", "skipped to the end"], "display": "Reached the end", "score": "intent +10", "validation": "unvalidated" },
+    "returned": { "event": "prospect day stamp", "source": "engine", "detector": "same browser, later calendar day", "category": "observation", "alternatives": ["renewed interest", "another person on a shared device"], "display": "Came back on a later day", "score": "intent +15", "validation": "unvalidated" },
+    "opened_contact_link": { "event": "cta calendar|text|call|email|whatsapp|contact", "source": "presentation", "detector": "tapped a link that opens a channel", "category": "observation", "alternatives": ["intended to reach out", "curiosity", "mis-tap"], "display": "Opened {channel} to reach their host — not confirmed sent", "score": "intent +20 (not additive with requested_contact)", "validation": "unvalidated" },
+    "requested_contact": { "event": "contact_request | callback | intercept 'contact' answered yes", "source": "presentation", "detector": "explicit wording asking for a human response", "category": "request", "alternatives": [], "display": "Asked their host to contact them", "score": "intent +20; openness +40", "validation": "explicit" },
+    "clicked_enroll": { "event": "cta enroll", "source": "presentation", "detector": "tapped the enrollment link", "category": "observation", "alternatives": ["ready to join", "checking the price", "mis-tap"], "display": "Opened the enrollment page — enrollment not verified", "score": "intent +25", "validation": "unvalidated" },
+    "cap": { "event": "—", "source": "rules", "detector": "a dimension's reasons exceeded 100", "category": "hypothesis", "alternatives": [], "display": "Capped at 100", "score": "negative, so reasons still sum to the score", "validation": "n/a" },
+    "declared_path": { "event": "path", "source": "presentation", "detector": "the route the prospect chose", "category": "self_report", "alternatives": ["forced first choice"], "display": "Chose {path}", "score": "customer or builder interest +40", "validation": "self-report" },
+    "scenes_product": { "event": "scene + topics", "source": "engine", "detector": "share of product scenes with a qualified view", "category": "observation", "alternatives": ["attention", "left running"], "display": "Viewed {n} of {m} product scenes", "score": "customer interest: 30 × share", "validation": "unvalidated" },
+    "scenes_business": { "event": "scene + topics", "source": "engine", "detector": "share of business scenes with a qualified view", "category": "observation", "alternatives": ["attention", "left running"], "display": "Viewed {n} of {m} business scenes", "score": "builder interest: 30 × share", "validation": "unvalidated" },
+    "action_product": { "event": "cta shop", "source": "presentation", "detector": "tapped a product action", "category": "observation", "alternatives": ["checking prices"], "display": "Opened the shop — purchase not verified", "score": "customer interest +30", "validation": "unvalidated" },
+    "action_business": { "event": "cta enroll", "source": "presentation", "detector": "tapped a business action", "category": "observation", "alternatives": ["checking the cost of joining"], "display": "Opened the enrollment page — enrollment not verified", "score": "builder interest +30", "validation": "unvalidated" },
+    "volunteered_phone": { "event": "contact.phone", "source": "presentation", "detector": "optional phone field filled", "category": "self_report", "alternatives": ["form habit"], "display": "Shared a phone number", "score": "openness +40 (does not imply buying intent)", "validation": "self-report" },
+    "sms_permission": { "event": "contact.smsConsent", "source": "presentation", "detector": "unticked-by-default SMS box ticked", "category": "self_report", "alternatives": [], "display": "Allowed text messages", "score": "openness +20 (not buying intent)", "validation": "self-report" },
+    "said_now": { "event": "answer timing", "source": "presentation", "detector": "closed choice", "category": "self_report", "alternatives": [], "display": "Said: ready now", "score": "urgency 100", "validation": "self-report" },
+    "said_month": { "event": "answer timing", "source": "presentation", "detector": "closed choice", "category": "self_report", "alternatives": [], "display": "Said: sometime this month", "score": "urgency 60", "validation": "self-report" },
+    "said_looking": { "event": "answer timing", "source": "presentation", "detector": "closed choice", "category": "self_report", "alternatives": [], "display": "Said: just looking", "score": "urgency 20", "validation": "self-report" }
+  },
+  "states": {
+    "measured": "Observed or answered; a score of 0 is a real zero.",
+    "insufficient": "Too little exposure to say anything; no score is shown.",
+    "unavailable": "This presentation does not offer the question or channel.",
+    "not_asked": "Offered, but the prospect never reached it.",
+    "skipped": "Shown, and the prospect moved past it.",
+    "declined": "Shown, and the prospect chose not to answer.",
+    "excluded": "The venture's own or test traffic; never scored."
+  },
+  "request_states": {
+    "none": "No next step started.",
+    "next_step": "Opened a contact link, calendar or enrollment page. Nothing confirmed; not permission to contact.",
+    "requested": "Explicitly asked for a human response.",
+    "confirmed": "A booking the scheduler confirmed."
+  },
+  "describe": {
+    "requested_contact": "Asked for a next step",
+    "started_next_step": "Started a next step",
+    "asked_questions": "Asked questions",
+    "reviewing_business": "Reviewing business information",
+    "exploring_product": "Exploring product information",
+    "finished_without_request": "Watched to the end without asking anything",
+    "brief_visit": "Brief visit",
+    "partway": "Watched part of it"
+  },
+  "observed": {
+    "encouraged": ["share", "save", "host", "diligence", "interact", "media_replay", "media_done", "resume", "lingered"],
+    "struggled": ["rage", "dead", "thrash"],
+    "note": "Observed and shown. Never scored in 3.0.0. Struggle describes the page, not the person."
+  }
+}

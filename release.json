@@ -1,0 +1,11 @@
+{
+  "package": "@kmin/prospect-intelligence",
+  "version": "1.11.0",
+  "sha256": {
+    "dist/prospect-intelligence.js": "c66bd92a01c32ae78862e9a18420ca5b5aa32ef4106052bd86f6854c4272bfdd",
+    "src/evaluate.js": "02a763bdb9fac96c5e08da0be2488ae49ecaf936b2f13574434ba4d653082fcc",
+    "src/config.js": "4da78896994946db48913a612ec21091959e784e9ef1a6438ebdb5241a975d85",
+    "src/profile-shape.js": "8b7dae7615941c21b9066ccfc13f25669e8ba1b2768aea75913f0b5c62ebbe15",
+    "src/outcomes.js": "69d49da840f2532ed80cb41bf34b014deb77fc97899f29cd0bf8eafc0c62ba30"
+  }
+}

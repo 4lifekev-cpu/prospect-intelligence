@@ -1,0 +1,1827 @@
+{
+ "ghost": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true
+  },
+  "opts": {},
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "none",
+   "evidence": {
+    "strength": "thin",
+    "qualified": 0,
+    "total": 23,
+    "share": 0,
+    "types": [],
+    "fgSec": 0
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "customer": {
+     "measured": true,
+     "score": 0,
+     "reasons": [],
+     "notes": [
+      "topics_not_configured"
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 0,
+     "reasons": [],
+     "notes": [
+      "topics_not_configured"
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": null,
+    "lean": null,
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": false,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": null,
+   "action": {
+    "timing": "none",
+    "opener": null
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "request",
+     "intent": 25
+    },
+    {
+     "if": "asked_contact",
+     "band": "request",
+     "intent": 20
+    },
+    {
+     "if": "returned",
+     "band": "none",
+     "intent": 15
+    },
+    {
+     "if": "finished",
+     "band": "none",
+     "intent": 10
+    }
+   ]
+  }
+ },
+ "two_tap_bounce": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "name": "Dana",
+   "path": "income",
+   "lean": "builder"
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "none",
+   "evidence": {
+    "strength": "thin",
+    "qualified": 0,
+    "total": 23,
+    "share": 0,
+    "types": [
+     "declared"
+    ],
+    "fgSec": 3
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "customer": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "builder": {
+     "measured": true,
+     "score": 40,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": "income",
+    "lean": "builder",
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": false,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": null,
+   "action": {
+    "timing": "none",
+    "opener": null
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "request",
+     "intent": 25
+    },
+    {
+     "if": "asked_contact",
+     "band": "request",
+     "intent": 20
+    },
+    {
+     "if": "returned",
+     "band": "none",
+     "intent": 15
+    },
+    {
+     "if": "finished",
+     "band": "none",
+     "intent": 10
+    }
+   ]
+  }
+ },
+ "scrubbed": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "finished": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "none",
+   "evidence": {
+    "strength": "thin",
+    "qualified": 0,
+    "total": 23,
+    "share": 0,
+    "types": [
+     "completion"
+    ],
+    "fgSec": 23
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 10,
+     "reasons": [
+      {
+       "code": "finished",
+       "pts": 10
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "builder": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": null,
+    "lean": null,
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": true,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": null,
+   "action": {
+    "timing": "none",
+    "opener": null
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "request",
+     "intent": 35
+    },
+    {
+     "if": "asked_contact",
+     "band": "request",
+     "intent": 30
+    },
+    {
+     "if": "returned",
+     "band": "none",
+     "intent": 25
+    }
+   ]
+  }
+ },
+ "halfway": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "path": "protect",
+   "lean": "customer"
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "cool",
+   "evidence": {
+    "strength": "partial",
+    "qualified": 12,
+    "total": 23,
+    "share": 52,
+    "types": [
+     "declared",
+     "attention"
+    ],
+    "fgSec": 240
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 16,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 16
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 40,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": "protect",
+    "lean": "customer",
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": false,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "window_shopper",
+    "name": "The Window-Shopper",
+    "rule": "intent_under_25"
+   },
+   "action": {
+    "timing": "none",
+    "opener": "open_window_shopper"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 41
+    },
+    {
+     "if": "asked_contact",
+     "band": "molten",
+     "intent": 36
+    },
+    {
+     "if": "returned",
+     "band": "warm",
+     "intent": 31
+    },
+    {
+     "if": "finished",
+     "band": "warm",
+     "intent": 26
+    }
+   ]
+  }
+ },
+ "full_watch": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "path": "protect",
+   "lean": "customer",
+   "finished": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "warm",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 23,
+    "total": 23,
+    "share": 100,
+    "types": [
+     "declared",
+     "attention",
+     "completion"
+    ],
+    "fgSec": 460
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 40,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 30
+      },
+      {
+       "code": "finished",
+       "pts": 10
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 70,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      },
+      {
+       "code": "scenes_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": "protect",
+    "lean": "customer",
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": true,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "believer",
+    "name": "The Believer",
+    "rule": "customer_interest_60"
+   },
+   "action": {
+    "timing": "within_2d",
+    "opener": "open_believer"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 65
+    },
+    {
+     "if": "asked_contact",
+     "band": "molten",
+     "intent": 60
+    },
+    {
+     "if": "returned",
+     "band": "hot",
+     "intent": 55
+    }
+   ]
+  }
+ },
+ "full_watch_returned": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "ctaActions": [],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "path": "income",
+   "lean": "builder",
+   "finished": true,
+   "returning": true,
+   "questions": [
+    "a",
+    "b"
+   ]
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "hot",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 23,
+    "total": 23,
+    "share": 100,
+    "types": [
+     "declared",
+     "attention",
+     "completion",
+     "return"
+    ],
+    "fgSec": 460
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 55,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 30
+      },
+      {
+       "code": "finished",
+       "pts": 10
+      },
+      {
+       "code": "returned",
+       "pts": 15
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 70,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      },
+      {
+       "code": "scenes_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": "income",
+    "lean": "builder",
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": true,
+    "returned": true,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "researcher",
+    "name": "The Researcher",
+    "rule": "asked_two_questions"
+   },
+   "action": {
+    "timing": "within_24h",
+    "opener": "open_researcher"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 80
+    },
+    {
+     "if": "asked_contact",
+     "band": "molten",
+     "intent": 75
+    },
+    {
+     "if": "no_reply_3d",
+     "band": "warm"
+    }
+   ]
+  }
+ },
+ "full_watch_asked": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "ctaActions": [
+    "calendar"
+   ],
+   "answers": {
+    "timing": "now",
+    "experience": "yes"
+   },
+   "revisits": {
+    "13": 2,
+    "16": 1
+   },
+   "phoneOffered": true,
+   "path": "income",
+   "lean": "builder",
+   "finished": true,
+   "phone": "801-555-0100",
+   "smsConsent": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "molten",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 23,
+    "total": 23,
+    "share": 100,
+    "types": [
+     "declared",
+     "attention",
+     "completion",
+     "request",
+     "contact",
+     "answer"
+    ],
+    "fgSec": 460
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 60,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 30
+      },
+      {
+       "code": "finished",
+       "pts": 10
+      },
+      {
+       "code": "asked_contact",
+       "pts": 20
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 70,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      },
+      {
+       "code": "scenes_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 100,
+     "reasons": [
+      {
+       "code": "volunteered_phone",
+       "pts": 40
+      },
+      {
+       "code": "sms_consent",
+       "pts": 20
+      },
+      {
+       "code": "asked_contact",
+       "pts": 40
+      }
+     ]
+    },
+    "urgency": {
+     "measured": true,
+     "score": 100,
+     "reasons": [
+      {
+       "code": "said_now",
+       "pts": 100
+      }
+     ]
+    }
+   },
+   "declared": {
+    "path": "income",
+    "lean": "builder",
+    "timing": "now",
+    "experience": "yes"
+   },
+   "observed": {
+    "finished": true,
+    "returned": false,
+    "actions": [
+     "calendar"
+    ],
+    "backtracks": 0,
+    "revisited": [
+     {
+      "scene": 13,
+      "times": 2,
+      "sec": 20,
+      "topic": "business"
+     },
+     {
+      "scene": 16,
+      "times": 1,
+      "sec": 20,
+      "topic": "product"
+     }
+    ],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "ready_now",
+    "name": "The Ready-Now",
+    "rule": "asked_next_step"
+   },
+   "action": {
+    "timing": "within_hour",
+    "opener": "ask_about_business"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 85
+    },
+    {
+     "if": "returned",
+     "band": "molten",
+     "intent": 75
+    },
+    {
+     "if": "no_reply_3d",
+     "band": "warm"
+    }
+   ]
+  }
+ },
+ "shop_tap": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "ctaActions": [
+    "shop"
+   ],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "path": "protect",
+   "lean": "customer",
+   "finished": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "warm",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 23,
+    "total": 23,
+    "share": 100,
+    "types": [
+     "declared",
+     "attention",
+     "completion"
+    ],
+    "fgSec": 460
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 40,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 30
+      },
+      {
+       "code": "finished",
+       "pts": 10
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 100,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      },
+      {
+       "code": "scenes_product",
+       "pts": 30
+      },
+      {
+       "code": "action_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": "protect",
+    "lean": "customer",
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": true,
+    "returned": false,
+    "actions": [
+     "shop"
+    ],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "believer",
+    "name": "The Believer",
+    "rule": "customer_interest_60"
+   },
+   "action": {
+    "timing": "within_2d",
+    "opener": "open_believer"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 65
+    },
+    {
+     "if": "asked_contact",
+     "band": "molten",
+     "intent": 60
+    },
+    {
+     "if": "returned",
+     "band": "hot",
+     "intent": 55
+    }
+   ]
+  }
+ },
+ "enroll_without_watching": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "ctaActions": [
+    "enroll"
+   ],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "request",
+   "evidence": {
+    "strength": "partial",
+    "qualified": 1,
+    "total": 23,
+    "share": 4,
+    "types": [
+     "attention",
+     "request"
+    ],
+    "fgSec": 20
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 26,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 1
+      },
+      {
+       "code": "tapped_enroll",
+       "pts": 25
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "builder": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "action_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": null,
+    "lean": null,
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": false,
+    "returned": false,
+    "actions": [
+     "enroll"
+    ],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "ready_now",
+    "name": "The Ready-Now",
+    "rule": "asked_next_step"
+   },
+   "action": {
+    "timing": "now",
+    "opener": "open_ready_now"
+   },
+   "wouldChange": [
+    {
+     "if": "asked_contact",
+     "band": "request",
+     "intent": 46
+    },
+    {
+     "if": "returned",
+     "band": "request",
+     "intent": 41
+    },
+    {
+     "if": "finished",
+     "band": "request",
+     "intent": 36
+    },
+    {
+     "if": "no_reply_3d",
+     "band": "warm"
+    }
+   ]
+  }
+ },
+ "spanish_no_phone_field": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    0,
+    0,
+    0
+   ],
+   "ctaActions": [],
+   "answers": {
+    "timing": "looking"
+   },
+   "revisits": {},
+   "phoneOffered": false,
+   "path": "income",
+   "lean": "builder"
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ]
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "warm",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 20,
+    "total": 23,
+    "share": 87,
+    "types": [
+     "declared",
+     "attention",
+     "answer"
+    ],
+    "fgSec": 400
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 26,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 26
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 70,
+     "reasons": [
+      {
+       "code": "declared_path",
+       "pts": 40
+      },
+      {
+       "code": "scenes_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": false,
+     "why": "phone_not_offered"
+    },
+    "urgency": {
+     "measured": true,
+     "score": 20,
+     "reasons": [
+      {
+       "code": "said_looking",
+       "pts": 20
+      }
+     ]
+    }
+   },
+   "declared": {
+    "path": "income",
+    "lean": "builder",
+    "timing": "looking",
+    "experience": null
+   },
+   "observed": {
+    "finished": false,
+    "returned": false,
+    "actions": [],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": {
+    "key": "dreamer",
+    "name": "The Dreamer",
+    "rule": "builder_interest_60"
+   },
+   "action": {
+    "timing": "within_2d",
+    "opener": "open_dreamer"
+   },
+   "wouldChange": [
+    {
+     "if": "tapped_enroll",
+     "band": "molten",
+     "intent": 51
+    },
+    {
+     "if": "asked_contact",
+     "band": "molten",
+     "intent": 46
+    },
+    {
+     "if": "returned",
+     "band": "warm",
+     "intent": 41
+    },
+    {
+     "if": "finished",
+     "band": "warm",
+     "intent": 36
+    }
+   ]
+  }
+ },
+ "internal": {
+  "signals": {
+   "totalDepth": 23,
+   "sceneSec": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+   ],
+   "ctaActions": [
+    "enroll"
+   ],
+   "answers": {},
+   "revisits": {},
+   "phoneOffered": true,
+   "finished": true
+  },
+  "opts": {
+   "topics": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "business",
+    "business",
+    "business",
+    "product",
+    "product",
+    "product"
+   ],
+   "internal": true
+  },
+  "read": {
+   "schema": "pi-read-v3",
+   "rules": {
+    "version": "2.1.0",
+    "status": "unvalidated"
+   },
+   "band": "excluded",
+   "evidence": {
+    "strength": "solid",
+    "qualified": 23,
+    "total": 23,
+    "share": 100,
+    "types": [
+     "attention",
+     "completion",
+     "request"
+    ],
+    "fgSec": 460
+   },
+   "dims": {
+    "intent": {
+     "measured": true,
+     "score": 65,
+     "reasons": [
+      {
+       "code": "views",
+       "pts": 30
+      },
+      {
+       "code": "finished",
+       "pts": 10
+      },
+      {
+       "code": "tapped_enroll",
+       "pts": 25
+      }
+     ]
+    },
+    "customer": {
+     "measured": true,
+     "score": 30,
+     "reasons": [
+      {
+       "code": "scenes_product",
+       "pts": 30
+      }
+     ]
+    },
+    "builder": {
+     "measured": true,
+     "score": 60,
+     "reasons": [
+      {
+       "code": "scenes_business",
+       "pts": 30
+      },
+      {
+       "code": "action_business",
+       "pts": 30
+      }
+     ]
+    },
+    "openness": {
+     "measured": true,
+     "score": 0,
+     "reasons": []
+    },
+    "urgency": {
+     "measured": false,
+     "why": "not_asked"
+    }
+   },
+   "declared": {
+    "path": null,
+    "lean": null,
+    "timing": null,
+    "experience": null
+   },
+   "observed": {
+    "finished": true,
+    "returned": false,
+    "actions": [
+     "enroll"
+    ],
+    "backtracks": 0,
+    "revisited": [],
+    "encouraged": [],
+    "struggled": [],
+    "hovered": [],
+    "intercepts": []
+   },
+   "approach": null,
+   "action": {
+    "timing": "none",
+    "opener": null
+   },
+   "wouldChange": [
+    {
+     "if": "asked_contact",
+     "band": "excluded",
+     "intent": 85
+    },
+    {
+     "if": "returned",
+     "band": "excluded",
+     "intent": 80
+    }
+   ]
+  }
+ }
+}

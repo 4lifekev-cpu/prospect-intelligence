@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kmin:prospect-intelligence/profile/h2-intel-v2",
+  "title": "Prospect Intelligence read (schema h2-intel-v2)",
+  "description": "What PI.profile() returns and what the persist payload carries as `intelligence`. This is the contract between the engine in the browser and every consumer of it. A change here is a schema bump, not an edit.",
+  "type": "object",
+  "required": ["schema", "prospect", "archetype", "stage", "fogg", "conversion", "temperature", "scores", "dna", "framing", "lever", "nextBestAction", "meta", "headline"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "h2-intel-v2" },
+    "prospect": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "phone", "email", "method"],
+      "properties": {
+        "name":   { "type": "string", "description": "\"(anonymous)\" when never given" },
+        "phone":  { "type": "string" },
+        "email":  { "type": "string" },
+        "method": { "type": "string" }
+      }
+    },
+    "archetype": {
+      "type": "object", "additionalProperties": false, "required": ["name", "read"],
+      "properties": {
+        "name": { "enum": ["The Ready-Now", "The Researcher", "The Dreamer", "The Believer", "The Window-Shopper", "The Deliberator", "The Explorer"] },
+        "read": { "type": "string" }
+      }
+    },
+    "stage": {
+      "type": "object", "additionalProperties": false, "required": ["key", "label", "push"],
+      "properties": {
+        "key":   { "enum": ["precontemplation", "contemplation", "preparation", "action"] },
+        "label": { "enum": ["Precontemplation", "Contemplation", "Preparation", "Action"] },
+        "push":  { "type": "string" }
+      }
+    },
+    "fogg": {
+      "type": "object", "additionalProperties": false,
+      "required": ["motivation", "ability", "prompt", "readiness", "bottleneck"],
+      "properties": {
+        "motivation": { "$ref": "#/$defs/pct" },
+        "ability":    { "$ref": "#/$defs/pct" },
+        "prompt":     { "$ref": "#/$defs/pct" },
+        "readiness":  { "$ref": "#/$defs/pct" },
+        "bottleneck": { "enum": ["Motivation", "Ability", "Prompt"] }
+      }
+    },
+    "conversion": {
+      "type": "object", "additionalProperties": false, "required": ["probability", "confidence"],
+      "properties": { "probability": { "$ref": "#/$defs/pct" }, "confidence": { "$ref": "#/$defs/pct" } }
+    },
+    "temperature": {
+      "type": "object", "additionalProperties": false, "required": ["heat", "band"],
+      "properties": {
+        "heat": { "$ref": "#/$defs/pct" },
+        "band": { "enum": ["Molten", "Hot", "Warm", "Cool"], "description": "Rows written before 4 Sep 2026 may carry \"On Fire\", the former name of Molten. Readers accept both; the engine no longer emits it." }
+      }
+    },
+    "scores": {
+      "type": "object", "additionalProperties": false,
+      "required": ["customer", "builder", "leadership", "intent", "urgency", "trust"],
+      "properties": {
+        "customer":   { "$ref": "#/$defs/pct" },
+        "builder":    { "$ref": "#/$defs/pct" },
+        "leadership": { "$ref": "#/$defs/pct" },
+        "intent":     { "$ref": "#/$defs/pct" },
+        "urgency":    { "$ref": "#/$defs/pct" },
+        "trust":      { "$ref": "#/$defs/pct" }
+      }
+    },
+    "dna": {
+      "type": "object", "additionalProperties": false,
+      "required": ["primaryMotivation", "pathChosen", "decisionStyle", "engagement"],
+      "properties": {
+        "primaryMotivation": { "type": "string", "description": "From the venture's path vocabulary (TENANT.piPaths); \"Still exploring\" when no path was chosen." },
+        "pathChosen":        { "type": ["string", "null"] },
+        "decisionStyle":     { "type": "string" },
+        "engagement":        { "enum": ["High", "Moderate", "Low"] }
+      }
+    },
+    "framing": {
+      "type": "object", "additionalProperties": false, "required": ["frame", "line"],
+      "properties": { "frame": { "enum": ["Gain", "Loss-avoidance"] }, "line": { "type": "string" } }
+    },
+    "lever": {
+      "type": "object", "additionalProperties": false, "required": ["principle", "move"],
+      "properties": { "principle": { "type": "string" }, "move": { "type": "string" } }
+    },
+    "nextBestAction": {
+      "type": "object", "additionalProperties": false, "required": ["timing", "headline", "detail"],
+      "properties": {
+        "timing":   { "enum": ["within the hour", "within 24 hours", "within 2–3 days", "this week, low-pressure"] },
+        "headline": { "type": "string" },
+        "detail":   { "type": "string" }
+      }
+    },
+    "meta": {
+      "type": "object", "additionalProperties": false,
+      "required": ["furthestBeat", "interactions", "questions", "durationSec", "booked", "ctaAction"],
+      "properties": {
+        "furthestBeat": { "type": "number", "minimum": 0 },
+        "interactions": { "type": "number", "minimum": 0 },
+        "questions":    { "type": "number", "minimum": 0 },
+        "durationSec":  { "type": "number", "minimum": 1 },
+        "booked":       { "type": "boolean" },
+        "ctaAction":    { "type": "string" }
+      }
+    },
+    "headline": { "type": "string" }
+  },
+  "$defs": {
+    "pct": { "type": "integer", "minimum": 0, "maximum": 100 }
+  }
+}

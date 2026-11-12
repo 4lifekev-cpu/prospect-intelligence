@@ -1,0 +1,745 @@
+{
+ "anonymous_bounce": {
+  "signals": {
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000008000,
+   "maxDepth": 1,
+   "totalDepth": 24,
+   "droppedEarly": true
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "(anonymous)",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Window-Shopper",
+    "read": "Curious but uncommitted. Re-earn attention with value."
+   },
+   "stage": {
+    "key": "precontemplation",
+    "label": "Precontemplation",
+    "push": "Not ready. Re-engage with a low-pressure, value-first touch."
+   },
+   "fogg": {
+    "motivation": 28,
+    "ability": 39,
+    "prompt": 2,
+    "readiness": 0,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 4,
+    "confidence": 0
+   },
+   "temperature": {
+    "heat": 18,
+    "band": "Cool"
+   },
+   "scores": {
+    "customer": 37,
+    "builder": 34,
+    "leadership": 26,
+    "intent": 35,
+    "urgency": 27,
+    "trust": 24
+   },
+   "dna": {
+    "primaryMotivation": "Still exploring",
+    "pathChosen": null,
+    "decisionStyle": "Intuitive — moves on feel",
+    "engagement": "Low"
+   },
+   "framing": {
+    "frame": "Loss-avoidance",
+    "line": "Frame the cost of waiting — what staying the same keeps costing them."
+   },
+   "lever": {
+    "principle": "Reciprocity",
+    "move": "Give something genuinely useful first, with no ask attached."
+   },
+   "nextBestAction": {
+    "timing": "this week, low-pressure",
+    "headline": "Reach out this week, low-pressure — Give something genuinely useful first, with no ask attached.",
+    "detail": "Stage: Precontemplation. Lever: Reciprocity. Frame the cost of waiting — what staying the same keeps costing them. Not ready. Re-engage with a low-pressure, value-first touch."
+   },
+   "meta": {
+    "furthestBeat": 1,
+    "interactions": 0,
+    "questions": 0,
+    "durationSec": 8,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "This prospect is window-shopper — still exploring drives them, cool (4% likely, 0% confidence). Reach out this week, low-pressure — Give something genuinely useful first, with no ask attached."
+  }
+ },
+ "named_explorer": {
+  "signals": {
+   "name": "Dana",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000090000,
+   "maxDepth": 7,
+   "totalDepth": 24,
+   "interactions": 1
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Dana",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Explorer",
+    "read": "Still forming an opinion. Keep the story moving."
+   },
+   "stage": {
+    "key": "contemplation",
+    "label": "Contemplation",
+    "push": "Weighing it. Keep building interest and trust."
+   },
+   "fogg": {
+    "motivation": 34,
+    "ability": 94,
+    "prompt": 12,
+    "readiness": 4,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 25,
+    "confidence": 53
+   },
+   "temperature": {
+    "heat": 29,
+    "band": "Cool"
+   },
+   "scores": {
+    "customer": 45,
+    "builder": 48,
+    "leadership": 39,
+    "intent": 49,
+    "urgency": 33,
+    "trust": 60
+   },
+   "dna": {
+    "primaryMotivation": "Still exploring",
+    "pathChosen": null,
+    "decisionStyle": "Intuitive — moves on feel",
+    "engagement": "Moderate"
+   },
+   "framing": {
+    "frame": "Loss-avoidance",
+    "line": "Frame the cost of waiting — what staying the same keeps costing them."
+   },
+   "lever": {
+    "principle": "Reciprocity + Liking",
+    "move": "Be useful and human; build the relationship before the ask."
+   },
+   "nextBestAction": {
+    "timing": "this week, low-pressure",
+    "headline": "Reach out this week, low-pressure — Be useful and human; build the relationship before the ask.",
+    "detail": "Stage: Contemplation. Lever: Reciprocity + Liking. Frame the cost of waiting — what staying the same keeps costing them. Weighing it. Keep building interest and trust."
+   },
+   "meta": {
+    "furthestBeat": 7,
+    "interactions": 1,
+    "questions": 0,
+    "durationSec": 90,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Dana is explorer — still exploring drives them, cool (25% likely, 53% confidence). Reach out this week, low-pressure — Be useful and human; build the relationship before the ask."
+  }
+ },
+ "wealth_builder": {
+  "signals": {
+   "name": "Dana",
+   "path": "wealth",
+   "pathLabel": "Wealth",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000300000,
+   "maxDepth": 20,
+   "totalDepth": 24,
+   "interactions": 3,
+   "reactions": [
+    "love",
+    "yes"
+   ]
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Dana",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Ready-Now",
+    "read": "Decided and warm. Speed is the only risk now."
+   },
+   "stage": {
+    "key": "preparation",
+    "label": "Preparation",
+    "push": "They're deciding. Give a clear next step + remove the last objection."
+   },
+   "fogg": {
+    "motivation": 90,
+    "ability": 100,
+    "prompt": 45,
+    "readiness": 41,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 78,
+    "confidence": 89
+   },
+   "temperature": {
+    "heat": 72,
+    "band": "Hot"
+   },
+   "scores": {
+    "customer": 83,
+    "builder": 95,
+    "leadership": 69,
+    "intent": 85,
+    "urgency": 82,
+    "trust": 72
+   },
+   "dna": {
+    "primaryMotivation": "Financial growth",
+    "pathChosen": "Wealth",
+    "decisionStyle": "Engaged — likes to test ideas",
+    "engagement": "High"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Scarcity / Commitment",
+    "move": "Lock the decision with a clear, time-bound next step."
+   },
+   "nextBestAction": {
+    "timing": "within 24 hours",
+    "headline": "Reach out within 24 hours — Lock the decision with a clear, time-bound next step.",
+    "detail": "Stage: Preparation. Lever: Scarcity / Commitment. Frame the upside — what opens up when they say yes. They're deciding. Give a clear next step + remove the last objection."
+   },
+   "meta": {
+    "furthestBeat": 20,
+    "interactions": 3,
+    "questions": 0,
+    "durationSec": 300,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Dana is ready-now — financial growth drives them, hot (78% likely, 89% confidence). Reach out within 24 hours — Lock the decision with a clear, time-bound next step."
+  }
+ },
+ "protect_customer": {
+  "signals": {
+   "name": "Sam",
+   "path": "protect",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000240000,
+   "maxDepth": 16,
+   "totalDepth": 24,
+   "interactions": 2,
+   "reactions": [
+    "love"
+   ]
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Sam",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Believer",
+    "read": "Connected to the product/purpose. Community will convert them."
+   },
+   "stage": {
+    "key": "preparation",
+    "label": "Preparation",
+    "push": "They're deciding. Give a clear next step + remove the last objection."
+   },
+   "fogg": {
+    "motivation": 68,
+    "ability": 100,
+    "prompt": 33,
+    "readiness": 22,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 63,
+    "confidence": 83
+   },
+   "temperature": {
+    "heat": 55,
+    "band": "Warm"
+   },
+   "scores": {
+    "customer": 87,
+    "builder": 65,
+    "leadership": 57,
+    "intent": 73,
+    "urgency": 60,
+    "trust": 68
+   },
+   "dna": {
+    "primaryMotivation": "Protection & security",
+    "pathChosen": "Protect",
+    "decisionStyle": "Engaged — likes to test ideas",
+    "engagement": "High"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Liking + Social Proof",
+    "move": "Bring them into the community; let belonging do the work."
+   },
+   "nextBestAction": {
+    "timing": "within 2–3 days",
+    "headline": "Reach out within 2–3 days — Bring them into the community; let belonging do the work.",
+    "detail": "Stage: Preparation. Lever: Liking + Social Proof. Frame the upside — what opens up when they say yes. They're deciding. Give a clear next step + remove the last objection."
+   },
+   "meta": {
+    "furthestBeat": 16,
+    "interactions": 2,
+    "questions": 0,
+    "durationSec": 240,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Sam is believer — protection & security drives them, warm (63% likely, 83% confidence). Reach out within 2–3 days — Bring them into the community; let belonging do the work."
+  }
+ },
+ "researcher": {
+  "signals": {
+   "name": "Lee",
+   "path": "proof",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000600000,
+   "maxDepth": 22,
+   "totalDepth": 24,
+   "interactions": 2,
+   "questions": [
+    "How much?",
+    "Is it insured?",
+    "Who runs it?"
+   ]
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Lee",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Researcher",
+    "read": "Analytical and careful — needs proof before belief."
+   },
+   "stage": {
+    "key": "preparation",
+    "label": "Preparation",
+    "push": "They're deciding. Give a clear next step + remove the last objection."
+   },
+   "fogg": {
+    "motivation": 63,
+    "ability": 100,
+    "prompt": 37,
+    "readiness": 23,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 75,
+    "confidence": 89
+   },
+   "temperature": {
+    "heat": 56,
+    "band": "Warm"
+   },
+   "scores": {
+    "customer": 86,
+    "builder": 71,
+    "leadership": 75,
+    "intent": 66,
+    "urgency": 62,
+    "trust": 94
+   },
+   "dna": {
+    "primaryMotivation": "Proof & certainty",
+    "pathChosen": "Proof",
+    "decisionStyle": "Analytical — asks before deciding",
+    "engagement": "High"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Authority + Social Proof",
+    "move": "Lead with evidence, credentials, and a peer success story."
+   },
+   "nextBestAction": {
+    "timing": "within 2–3 days",
+    "headline": "Reach out within 2–3 days — Lead with evidence, credentials, and a peer success story.",
+    "detail": "Stage: Preparation. Lever: Authority + Social Proof. Frame the upside — what opens up when they say yes. They're deciding. Give a clear next step + remove the last objection."
+   },
+   "meta": {
+    "furthestBeat": 22,
+    "interactions": 2,
+    "questions": 3,
+    "durationSec": 600,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Lee is researcher — proof & certainty drives them, warm (75% likely, 89% confidence). Reach out within 2–3 days — Lead with evidence, credentials, and a peer success story."
+  }
+ },
+ "booked_ready_now": {
+  "signals": {
+   "name": "Ava",
+   "email": "ava@example.test",
+   "contactMethod": "email",
+   "path": "income",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000420000,
+   "maxDepth": 24,
+   "totalDepth": 24,
+   "interactions": 4,
+   "reactions": [
+    "love",
+    "love"
+   ],
+   "booked": true,
+   "ctaAction": "enroll"
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Ava",
+    "phone": "",
+    "email": "ava@example.test",
+    "method": "email"
+   },
+   "archetype": {
+    "name": "The Ready-Now",
+    "read": "Decided and warm. Speed is the only risk now."
+   },
+   "stage": {
+    "key": "action",
+    "label": "Action",
+    "push": "Close & onboard — they've decided. Make it easy to say yes."
+   },
+   "fogg": {
+    "motivation": 90,
+    "ability": 100,
+    "prompt": 100,
+    "readiness": 90,
+    "bottleneck": "Motivation"
+   },
+   "conversion": {
+    "probability": 97,
+    "confidence": 95
+   },
+   "temperature": {
+    "heat": 96,
+    "band": "Molten"
+   },
+   "scores": {
+    "customer": 86,
+    "builder": 97,
+    "leadership": 87,
+    "intent": 98,
+    "urgency": 99,
+    "trust": 75
+   },
+   "dna": {
+    "primaryMotivation": "Financial growth",
+    "pathChosen": "Income",
+    "decisionStyle": "Engaged — likes to test ideas",
+    "engagement": "High"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Scarcity / Commitment",
+    "move": "Lock the decision with a clear, time-bound next step."
+   },
+   "nextBestAction": {
+    "timing": "within the hour",
+    "headline": "Reach out within the hour — Lock the decision with a clear, time-bound next step.",
+    "detail": "Stage: Action. Lever: Scarcity / Commitment. Frame the upside — what opens up when they say yes. Close & onboard — they've decided. Make it easy to say yes."
+   },
+   "meta": {
+    "furthestBeat": 24,
+    "interactions": 4,
+    "questions": 0,
+    "durationSec": 420,
+    "booked": true,
+    "ctaAction": "enroll"
+   },
+   "headline": "Ava is ready-now — financial growth drives them, molten (97% likely, 95% confidence). Reach out within the hour — Lock the decision with a clear, time-bound next step."
+  }
+ },
+ "backtracker": {
+  "signals": {
+   "name": "Kim",
+   "path": "freedom",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000200000,
+   "maxDepth": 10,
+   "totalDepth": 24,
+   "interactions": 1,
+   "backtracks": 4
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Kim",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Dreamer",
+    "read": "Loves the vision; needs a believable first step to act."
+   },
+   "stage": {
+    "key": "contemplation",
+    "label": "Contemplation",
+    "push": "Weighing it. Nurture with proof and vision — don't hard-close yet."
+   },
+   "fogg": {
+    "motivation": 60,
+    "ability": 51,
+    "prompt": 17,
+    "readiness": 5,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 30,
+    "confidence": 63
+   },
+   "temperature": {
+    "heat": 31,
+    "band": "Cool"
+   },
+   "scores": {
+    "customer": 50,
+    "builder": 89,
+    "leadership": 42,
+    "intent": 50,
+    "urgency": 33,
+    "trust": 63
+   },
+   "dna": {
+    "primaryMotivation": "Time & freedom",
+    "pathChosen": "Freedom",
+    "decisionStyle": "Intuitive — moves on feel",
+    "engagement": "Moderate"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Commitment & Consistency",
+    "move": "Get a small first yes that's consistent with their stated goal."
+   },
+   "nextBestAction": {
+    "timing": "this week, low-pressure",
+    "headline": "Reach out this week, low-pressure — Get a small first yes that's consistent with their stated goal.",
+    "detail": "Stage: Contemplation. Lever: Commitment & Consistency. Frame the upside — what opens up when they say yes. Weighing it. Nurture with proof and vision — don't hard-close yet."
+   },
+   "meta": {
+    "furthestBeat": 10,
+    "interactions": 1,
+    "questions": 0,
+    "durationSec": 200,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Kim is dreamer — time & freedom drives them, cool (30% likely, 63% confidence). Reach out this week, low-pressure — Get a small first yes that's consistent with their stated goal."
+  }
+ },
+ "unknown_path": {
+  "signals": {
+   "name": "Rae",
+   "path": "moon",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000100000,
+   "maxDepth": 12,
+   "totalDepth": 24,
+   "interactions": 2
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Rae",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Explorer",
+    "read": "Still forming an opinion. Keep the story moving."
+   },
+   "stage": {
+    "key": "contemplation",
+    "label": "Contemplation",
+    "push": "Weighing it. Nurture with proof and vision — don't hard-close yet."
+   },
+   "fogg": {
+    "motivation": 60,
+    "ability": 100,
+    "prompt": 20,
+    "readiness": 12,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 53,
+    "confidence": 71
+   },
+   "temperature": {
+    "heat": 42,
+    "band": "Warm"
+   },
+   "scores": {
+    "customer": 52,
+    "builder": 60,
+    "leadership": 52,
+    "intent": 61,
+    "urgency": 40,
+    "trust": 65
+   },
+   "dna": {
+    "primaryMotivation": "Still exploring",
+    "pathChosen": "Moon",
+    "decisionStyle": "Engaged — likes to test ideas",
+    "engagement": "Moderate"
+   },
+   "framing": {
+    "frame": "Loss-avoidance",
+    "line": "Frame the cost of waiting — what staying the same keeps costing them."
+   },
+   "lever": {
+    "principle": "Reciprocity + Liking",
+    "move": "Be useful and human; build the relationship before the ask."
+   },
+   "nextBestAction": {
+    "timing": "within 2–3 days",
+    "headline": "Reach out within 2–3 days — Be useful and human; build the relationship before the ask.",
+    "detail": "Stage: Contemplation. Lever: Reciprocity + Liking. Frame the cost of waiting — what staying the same keeps costing them. Weighing it. Nurture with proof and vision — don't hard-close yet."
+   },
+   "meta": {
+    "furthestBeat": 12,
+    "interactions": 2,
+    "questions": 0,
+    "durationSec": 100,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Rae is explorer — still exploring drives them, warm (53% likely, 71% confidence). Reach out within 2–3 days — Be useful and human; build the relationship before the ask."
+  }
+ },
+ "dwell_override": {
+  "signals": {
+   "name": "Jo",
+   "path": "legacy",
+   "startedAt": 1757000000000,
+   "lastEventAt": 1757000005000,
+   "dwellMs": 900000,
+   "maxDepth": 18,
+   "totalDepth": 24,
+   "interactions": 2,
+   "reactions": [
+    "yes"
+   ]
+  },
+  "read": {
+   "schema": "h2-intel-v2",
+   "prospect": {
+    "name": "Jo",
+    "phone": "",
+    "email": "",
+    "method": ""
+   },
+   "archetype": {
+    "name": "The Believer",
+    "read": "Connected to the product/purpose. Community will convert them."
+   },
+   "stage": {
+    "key": "preparation",
+    "label": "Preparation",
+    "push": "They're deciding. Give a clear next step + remove the last objection."
+   },
+   "fogg": {
+    "motivation": 69,
+    "ability": 100,
+    "prompt": 36,
+    "readiness": 25,
+    "bottleneck": "Prompt"
+   },
+   "conversion": {
+    "probability": 63,
+    "confidence": 83
+   },
+   "temperature": {
+    "heat": 55,
+    "band": "Warm"
+   },
+   "scores": {
+    "customer": 72,
+    "builder": 94,
+    "leadership": 59,
+    "intent": 69,
+    "urgency": 60,
+    "trust": 70
+   },
+   "dna": {
+    "primaryMotivation": "Time & freedom",
+    "pathChosen": "Legacy",
+    "decisionStyle": "Engaged — likes to test ideas",
+    "engagement": "High"
+   },
+   "framing": {
+    "frame": "Gain",
+    "line": "Frame the upside — what opens up when they say yes."
+   },
+   "lever": {
+    "principle": "Liking + Social Proof",
+    "move": "Bring them into the community; let belonging do the work."
+   },
+   "nextBestAction": {
+    "timing": "within 2–3 days",
+    "headline": "Reach out within 2–3 days — Bring them into the community; let belonging do the work.",
+    "detail": "Stage: Preparation. Lever: Liking + Social Proof. Frame the upside — what opens up when they say yes. They're deciding. Give a clear next step + remove the last objection."
+   },
+   "meta": {
+    "furthestBeat": 18,
+    "interactions": 2,
+    "questions": 0,
+    "durationSec": 900,
+    "booked": false,
+    "ctaAction": ""
+   },
+   "headline": "Jo is believer — time & freedom drives them, warm (63% likely, 83% confidence). Reach out within 2–3 days — Bring them into the community; let belonging do the work."
+  }
+ }
+}

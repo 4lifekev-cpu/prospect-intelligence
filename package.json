@@ -1,0 +1,40 @@
+{
+  "name": "@kmin/prospect-intelligence",
+  "version": "1.11.0",
+  "description": "Prospect Intelligence — the behavioural read engine shared by KMIN ventures. One browser file that turns interaction signals into a structured prospect profile, plus the server-side row shape. Names no venture.",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "src/profile-shape.js",
+  "browser": "dist/prospect-intelligence.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "files": [
+    "src",
+    "dist",
+    "schema",
+    "tools",
+    "signals.json",
+    "release.json",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/*.test.js",
+    "verify": "npm run build && npm run test",
+    "release": "node build.mjs --check && node --test test/*.test.js && npm pack",
+    "vendor": "node tools/vendor.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "//": [
+    "ZERO DEPENDENCIES, like every repository that touches prospect data.",
+    "The build is a header stamp and a copy; the tests run on node:test.",
+    "",
+    "Consumers vendor with tools/vendor.mjs into their own repository and check the",
+    "files in, so a consumer's deploy never reaches for a registry or for this",
+    "repository. pi.lock.json in the consumer pins the exact bytes."
+  ]
+}
