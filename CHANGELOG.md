@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.12.1 — 2026-11-11
+
+- Two code comments quoted phrases that a consumer's visible-copy check read
+  as new wording. Reworded; no code change. A test now fails if a line comment
+  in the bundle would read as visible wording to that kind of check.
+
 ## 1.12.0 — 2026-11-11
 
 **Careful intercepts and better questions (Prompt 08). Every existing read is unchanged: all golden sets reproduce exactly.**

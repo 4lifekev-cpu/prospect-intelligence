@@ -354,7 +354,7 @@
       }
       function urgency() {
         var a = String(answers.timing || "").toLowerCase();
-        // "later" is a real answer the rules do not score: it is reported as given, never as "not asked".
+        // The answer later is real but unscored: it is reported as given, never as not asked.
         if (a === "later") return { measured: false, why: "answered_unscored", value: a };
         if (!RULES.timing[a]) return { measured: false, why: "not_asked" };
         return { measured: true, score: RULES.timing[a], reasons: [{ code: "said_" + a, pts: RULES.timing[a] }] };

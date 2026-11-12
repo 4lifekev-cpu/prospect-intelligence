@@ -786,7 +786,7 @@
         if (!QUESTIONS[ak]) break;
         if (av === "skipped" || av === "declined") { if (!S.answers[ak]) S.answerStates[ak] = av; }
         else if (QUESTIONS[ak].indexOf(av) >= 0) {
-          // The answer is stored as given. "later" is a real answer the rules do not score yet.
+          // The answer is stored as given, including later, which the rules do not score yet.
           S.answers[ak] = av; delete S.answerStates[ak];
           // Saying which direction is the same declaration a welcome-screen path makes.
           if (ak === "direction" && !S.path) S.lean = av === "products" ? "customer" : av === "business" ? "builder" : "";

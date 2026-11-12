@@ -56,3 +56,21 @@ test("the engine has no venture-branded email builder", function () {
   var src = fs.readFileSync(path.join(ROOT, "src", "engine.js"), "utf8");
   assert.ok(!/function buildEmail|emailHtml\s*:|emailSubject\s*:/.test(src), "the email body belongs to the venture's mailer, not the engine");
 });
+
+// A consumer guards its approved wording by extracting quoted strings from every file it
+// ships, this bundle included. A phrase quoted inside a // comment reads to that check as
+// new visitor-facing copy (it happened at 1.11.0 and 1.12.0). Keep quoted prose out of line comments.
+test("no line comment in the bundle quotes a phrase that reads as visible wording", function () {
+  var dist = fs.readFileSync(path.join(ROOT, "dist", "prospect-intelligence.js"), "utf8").replace(/\/\*[\s\S]*?\*\//g, " ");
+  var hits = [];
+  dist.split("\n").forEach(function (line, i) {
+    var at = line.indexOf("//"); if (at < 0) return;
+    var before = line.slice(0, at); if ((before.split('"').length - 1) % 2) return;       // the // is inside a string
+    var c = line.slice(at), m, re = /"([^"\\\n]{12,})"/g;
+    while ((m = re.exec(c))) if (/[A-Za-z]{3,} [A-Za-z]{2,}/.test(m[1])) hits.push((i + 1) + ": " + m[1]);
+  });
+  // Three phrases predate this test and are already in consumers' approved snapshots;
+  // removing them would be a wording change there too. Nothing may be added to this list.
+  var GRANDFATHERED = ["watched to the end", "what would change this", "came back later"];
+  assert.deepEqual(hits.map(function (h) { return h.replace(/^\d+: /, ""); }).filter(function (h) { return GRANDFATHERED.indexOf(h) < 0; }), []);
+});

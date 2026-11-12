@@ -1,4 +1,4 @@
-/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.12.0 (src/evaluate.js + src/engine.js sha256:cc53d6aaca2e).
+/* GENERATED — do not edit. Built by @kmin/prospect-intelligence 1.12.1 (src/evaluate.js + src/engine.js sha256:49fdc51714a7).
  * The source of truth is src/{evaluate,engine}.js in the Prospect Intelligence
  * repository. Consumers vendor this file with tools/vendor.mjs and check it in;
  * their build fails when it drifts from the package. Edit the source, rebuild,
@@ -359,7 +359,7 @@
       }
       function urgency() {
         var a = String(answers.timing || "").toLowerCase();
-        // "later" is a real answer the rules do not score: it is reported as given, never as "not asked".
+        // The answer later is real but unscored: it is reported as given, never as not asked.
         if (a === "later") return { measured: false, why: "answered_unscored", value: a };
         if (!RULES.timing[a]) return { measured: false, why: "not_asked" };
         return { measured: true, score: RULES.timing[a], reasons: [{ code: "said_" + a, pts: RULES.timing[a] }] };
@@ -1519,7 +1519,7 @@
         if (!QUESTIONS[ak]) break;
         if (av === "skipped" || av === "declined") { if (!S.answers[ak]) S.answerStates[ak] = av; }
         else if (QUESTIONS[ak].indexOf(av) >= 0) {
-          // The answer is stored as given. "later" is a real answer the rules do not score yet.
+          // The answer is stored as given, including later, which the rules do not score yet.
           S.answers[ak] = av; delete S.answerStates[ak];
           // Saying which direction is the same declaration a welcome-screen path makes.
           if (ak === "direction" && !S.path) S.lean = av === "products" ? "customer" : av === "business" ? "builder" : "";
